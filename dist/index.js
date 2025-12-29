@@ -181,8 +181,8 @@ function Mt() {
         else p(R);
       if (ee.call(v, "key")) {
         R = e(g);
-        var X = Object.keys(v).filter(function(z) {
-          return z !== "key";
+        var X = Object.keys(v).filter(function(N) {
+          return N !== "key";
         });
         $ = 0 < X.length ? "{key: someKey, " + X.join(": ..., ") + ": ...}" : "{key: someKey}", L[R + $] || (X = 0 < X.length ? "{" + X.join(": ..., ") + ": ...}" : "{}", console.error(
           `A props object containing a "key" prop is being spread into JSX:
@@ -199,8 +199,8 @@ React keys must be passed directly to JSX without using spread:
       }
       if (R = null, O !== void 0 && (n(O), R = "" + O), s(v) && (n(v.key), R = "" + v.key), "key" in v) {
         O = {};
-        for (var N in v)
-          N !== "key" && (O[N] = v[N]);
+        for (var z in v)
+          z !== "key" && (O[z] = v[z]);
       } else O = v;
       return R && l(
         O,
@@ -443,7 +443,7 @@ function Ae(e) {
 function kt(e) {
   return Array.isArray(e) && e.every((r) => typeof r == "number");
 }
-function Nt(e, r) {
+function zt(e, r) {
   const n = [], t = (i) => {
     i.forEach((o) => {
       n.push(o);
@@ -487,7 +487,7 @@ function y(e, r, n, t) {
     onChange: t
   };
 }
-function zt(e, r, n, t) {
+function Nt(e, r, n, t) {
   const i = () => {
     var s;
     return (s = o.getValue()) != null ? s : e.options.renderFallbackValue;
@@ -693,7 +693,7 @@ const Tt = (e, r, n, t, i, o, s) => {
       return (u = l.getValue(a)) != null ? u : e.options.renderFallbackValue;
     },
     subRows: [],
-    getLeafRows: () => Nt(l.subRows, (a) => a.subRows),
+    getLeafRows: () => zt(l.subRows, (a) => a.subRows),
     getParentRow: () => l.parentId ? e.getRow(l.parentId, !0) : void 0,
     getParentRows: () => {
       let a = [], u = l;
@@ -704,7 +704,7 @@ const Tt = (e, r, n, t, i, o, s) => {
       }
       return a.reverse();
     },
-    getAllCells: x(() => [e.getAllLeafColumns()], (a) => a.map((u) => zt(e, l, u, u.id)), y(e.options, "debugRows", "getAllCells")),
+    getAllCells: x(() => [e.getAllLeafColumns()], (a) => a.map((u) => Nt(e, l, u, u.id)), y(e.options, "debugRows", "getAllCells")),
     _getAllCellsByColumnId: x(() => [l.getAllCells()], (a) => a.reduce((u, d) => (u[d.column.id] = d, u), {}), y(e.options, "debugRows", "getAllCellsByColumnId"))
   };
   for (let a = 0; a < e._features.length; a++) {
@@ -1163,9 +1163,9 @@ const Ee = {
     }, e.getResizeHandler = (n) => {
       const t = r.getColumn(e.column.id), i = t?.getCanResize();
       return (o) => {
-        if (!t || !i || (o.persist == null || o.persist(), Ne(o) && o.touches && o.touches.length > 1))
+        if (!t || !i || (o.persist == null || o.persist(), ze(o) && o.touches && o.touches.length > 1))
           return;
-        const s = e.getSize(), l = e ? e.getLeafHeaders().map((C) => [C.column.id, C.column.getSize()]) : [[t.id, t.getSize()]], a = Ne(o) ? Math.round(o.touches[0].clientX) : o.clientX, u = {}, d = (C, F) => {
+        const s = e.getSize(), l = e ? e.getLeafHeaders().map((C) => [C.column.id, C.column.getSize()]) : [[t.id, t.getSize()]], a = ze(o) ? Math.round(o.touches[0].clientX) : o.clientX, u = {}, d = (C, F) => {
           typeof F == "number" && (r.setColumnSizingInfo((E) => {
             var A, V;
             const b = r.options.columnResizeDirection === "rtl" ? -1 : 1, P = (F - ((A = E?.startOffset) != null ? A : 0)) * b, k = Math.max(P / ((V = E?.startSize) != null ? V : 0), -0.999999);
@@ -1205,7 +1205,7 @@ const Ee = {
         }, w = on() ? {
           passive: !1
         } : !1;
-        Ne(o) ? (c?.addEventListener("touchmove", m.moveHandler, w), c?.addEventListener("touchend", m.upHandler, w)) : (c?.addEventListener("mousemove", h.moveHandler, w), c?.addEventListener("mouseup", h.upHandler, w)), r.setColumnSizingInfo((C) => ({
+        ze(o) ? (c?.addEventListener("touchmove", m.moveHandler, w), c?.addEventListener("touchend", m.upHandler, w)) : (c?.addEventListener("mousemove", h.moveHandler, w), c?.addEventListener("mouseup", h.upHandler, w)), r.setColumnSizingInfo((C) => ({
           ...C,
           startOffset: a,
           startSize: s,
@@ -1256,7 +1256,7 @@ function on() {
   }
   return be = e, be;
 }
-function Ne(e) {
+function ze(e) {
   return e.type === "touchstart";
 }
 const sn = {
@@ -1434,14 +1434,14 @@ const ln = {
       };
     };
   }
-}, He = 0, Ge = 10, ze = () => ({
+}, He = 0, Ge = 10, Ne = () => ({
   pageIndex: He,
   pageSize: Ge
 }), cn = {
   getInitialState: (e) => ({
     ...e,
     pagination: {
-      ...ze(),
+      ...Ne(),
       ...e?.pagination
     }
   }),
@@ -1469,7 +1469,7 @@ const ln = {
       return e.options.onPaginationChange == null ? void 0 : e.options.onPaginationChange(i);
     }, e.resetPagination = (t) => {
       var i;
-      e.setPagination(t ? ze() : (i = e.initialState.pagination) != null ? i : ze());
+      e.setPagination(t ? Ne() : (i = e.initialState.pagination) != null ? i : Ne());
     }, e.setPageIndex = (t) => {
       e.setPagination((i) => {
         let o = ce(t, i.pageIndex);
@@ -2186,13 +2186,13 @@ function On({
                   {
                     className: `${R} align-center col-drag-handle`,
                     style: X,
-                    onPointerDown: (N) => k(I, N),
+                    onPointerDown: (z) => k(I, z),
                     children: "☰"
                   },
                   v.id
                 );
               if (v.column.id === "__selectable__" && a) {
-                const N = v.row.original.id ?? v.row.index, z = p.includes(N), he = u.has(N);
+                const z = v.row.original.id ?? v.row.index, N = p.includes(z), he = u.has(z);
                 return /* @__PURE__ */ S.jsx(
                   "td",
                   {
@@ -2203,11 +2203,11 @@ function On({
                       {
                         type: "checkbox",
                         checked: he,
-                        disabled: z,
+                        disabled: N,
                         onChange: () => {
                           d((me) => {
                             const oe = new Set(me);
-                            return oe.has(N) ? oe.delete(N) : oe.add(N), oe;
+                            return oe.has(z) ? oe.delete(z) : oe.add(z), oe;
                           });
                         }
                       }
@@ -2217,7 +2217,7 @@ function On({
                 );
               }
               if (v.column.id === "__expandable__" && f) {
-                const N = v.row.original.id ?? v.row.index, z = c.has(N);
+                const z = v.row.original.id ?? v.row.index, N = c.has(z);
                 return /* @__PURE__ */ S.jsx(
                   "td",
                   {
@@ -2226,17 +2226,17 @@ function On({
                     onClick: (he) => {
                       he.stopPropagation(), h((me) => {
                         const oe = new Set(me);
-                        return oe.has(N) ? oe.delete(N) : oe.add(N), oe;
+                        return oe.has(z) ? oe.delete(z) : oe.add(z), oe;
                       });
                     },
                     children: /* @__PURE__ */ S.jsx(
                       "span",
                       {
-                        className: `expand-icon ${z ? "expanded" : ""}`,
+                        className: `expand-icon ${N ? "expanded" : ""}`,
                         style: {
                           display: "inline-block",
                           transition: "transform 0.2s",
-                          transform: z ? "rotate(90deg)" : "rotate(0deg)",
+                          transform: N ? "rotate(90deg)" : "rotate(0deg)",
                           cursor: "pointer",
                           fontSize: "12px"
                         },
@@ -2260,12 +2260,12 @@ function On({
                     {
                       autoFocus: !0,
                       value: ee,
-                      onChange: (N) => re(N.target.value),
+                      onChange: (z) => re(z.target.value),
                       onBlur: () => D(v),
-                      onKeyDown: (N) => {
-                        N.key === "Enter" && D(v), N.key === "Escape" && J(null);
+                      onKeyDown: (z) => {
+                        z.key === "Enter" && D(v), z.key === "Escape" && J(null);
                       },
-                      onFocus: (N) => N.currentTarget.select(),
+                      onFocus: (z) => z.currentTarget.select(),
                       style: {
                         width: "100%",
                         height: "100%",
@@ -2357,16 +2357,6 @@ function An({
         {
           className: "pagination-btn pagination-arrow",
           disabled: e === 1,
-          onClick: () => i(1, n),
-          title: "Primeira página",
-          children: "««"
-        }
-      ),
-      /* @__PURE__ */ S.jsx(
-        "button",
-        {
-          className: "pagination-btn pagination-arrow",
-          disabled: e === 1,
           onClick: () => i(e - 1, n),
           title: "Página anterior",
           children: "«"
@@ -2398,16 +2388,6 @@ function An({
           onClick: () => i(e + 1, n),
           title: "Próxima página",
           children: "»"
-        }
-      ),
-      /* @__PURE__ */ S.jsx(
-        "button",
-        {
-          className: "pagination-btn pagination-arrow",
-          disabled: e === o,
-          onClick: () => i(o, n),
-          title: "Última página",
-          children: "»»"
         }
       )
     ] }),
@@ -2443,14 +2423,14 @@ function Oe(e) {
 var In = typeof global == "object" && global && global.Object === Object && global, Vn = typeof self == "object" && self && self.Object === Object && self, wt = In || Vn || Function("return this")(), Te = function() {
   return wt.Date.now();
 }, kn = /\s/;
-function Nn(e) {
+function zn(e) {
   for (var r = e.length; r-- && kn.test(e.charAt(r)); )
     ;
   return r;
 }
-var zn = /^\s+/;
+var Nn = /^\s+/;
 function Dn(e) {
-  return e && e.slice(0, Nn(e) + 1).replace(zn, "");
+  return e && e.slice(0, zn(e) + 1).replace(Nn, "");
 }
 var $e = wt.Symbol, Ct = Object.prototype, Ln = Ct.hasOwnProperty, Tn = Ct.toString, Ce = $e ? $e.toStringTag : void 0;
 function jn(e) {
@@ -3195,13 +3175,13 @@ function xr({
   borders: F
 }) {
   const E = H(null), A = te(
-    (z) => {
-      E.current = z;
+    (N) => {
+      E.current = N;
     },
     []
   ), [V, b] = Q(null), P = te(
-    (z) => {
-      b(z), l?.(z);
+    (N) => {
+      b(N), l?.(N);
     },
     [l]
   ), {
@@ -3214,11 +3194,11 @@ function xr({
   ), [D, M] = Q(ie), [_, I] = Q(/* @__PURE__ */ new Set()), L = ge(
     () => vr(
       (() => {
-        const z = [];
-        return f && z.push(Sr(c)), h && z.push(wr(
+        const N = [];
+        return f && N.push(Sr(c)), h && N.push(wr(
           h.sticky,
           h.label
-        )), m && z.push(Cr(m.sticky)), [...z, ...e];
+        )), m && N.push(Cr(m.sticky)), [...N, ...e];
       })()
     ),
     [
@@ -3229,7 +3209,7 @@ function xr({
       m
     ]
   ), [g, v] = Q(
-    () => L.map((z) => z.id)
+    () => L.map((N) => N.id)
   ), [O, $] = Q(r);
   Ze(() => {
     $(r);
@@ -3237,11 +3217,11 @@ function xr({
     a?.(O);
   }, [O, a]);
   const q = ge(
-    () => L.map((z) => ({
-      ...z,
+    () => L.map((N) => ({
+      ...N,
       meta: {
-        ...z.meta,
-        widthSize: ee[z.id] ?? z.meta?.widthSize
+        ...N.meta,
+        widthSize: ee[N.id] ?? N.meta?.widthSize
       }
     })),
     [L, ee]
@@ -3251,10 +3231,10 @@ function xr({
     g,
     v
   ), R = pr(G), { startResize: X } = gr({
-    onResize: (z, he) => {
+    onResize: (N, he) => {
       re((me) => ({
         ...me,
-        [z]: `${he}px`
+        [N]: `${he}px`
       }));
     },
     onResizeEnd: () => {
@@ -3262,7 +3242,7 @@ function xr({
         E.current?.recalculate();
       });
     }
-  }), { startDrag: N } = hr({
+  }), { startDrag: z } = hr({
     setColumnOrder: v
   });
   return Ye(() => {
@@ -3281,7 +3261,7 @@ function xr({
         sortState: V,
         setSortState: P,
         onResizeStart: X,
-        onDragStart: N,
+        onDragStart: z,
         defaultTextAlign: d,
         selectable: h,
         selectedRows: D,
