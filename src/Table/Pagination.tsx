@@ -72,14 +72,14 @@ export function Pagination({
 
             <div className="pagination-controls">
 
-                <button
+                {/* <button
                     className="pagination-btn pagination-arrow"
                     disabled={currentPage === 1}
                     onClick={() => onPageChange(1, pageSize)}
                     title="Primeira página"
                 >
                     ««
-                </button>
+                </button> */}
 
                 <button
                     className="pagination-btn pagination-arrow"
@@ -121,14 +121,14 @@ export function Pagination({
                     »
                 </button>
 
-                <button
+                {/* <button
                     className="pagination-btn pagination-arrow"
                     disabled={currentPage === totalPages}
                     onClick={() => onPageChange(totalPages, pageSize)}
                     title="Última página"
                 >
                     »»
-                </button>
+                </button> */}
 
             </div>
 
