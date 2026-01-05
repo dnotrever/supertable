@@ -32,11 +32,13 @@ export default defineConfig(({ command }) => {
                 fileName: () => 'index.js',
             },
             rollupOptions: {
-                external: [
-                    'react',
-                    'react-dom',
-                    'react/jsx-runtime',
-                ],
+                external: ['react', 'react-dom', 'react/jsx-runtime'],
+                output: {
+                    assetFileNames: asset =>
+                        asset.name === 'super-table.css'
+                            ? 'style.css'
+                            : asset.name!,
+                },
             },
         },
         esbuild: {
