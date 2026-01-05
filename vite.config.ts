@@ -19,12 +19,14 @@ export default defineConfig(({ command }) => {
                         changeOrigin: true,
                     },
                 },
-            }
+            },
         };
     }
+
     return {
         plugins: [react()],
         build: {
+            emptyOutDir: false,
             lib: {
                 entry: path.resolve('src/index.ts'),
                 formats: ['es'],

@@ -1,0 +1,25 @@
+import React from 'react';
+import type { Table } from '@tanstack/react-table';
+import type { StickyInfo } from '../hooks/useStickyColumns';
+import type { SelectableProps, ExpandableProps } from './Table.types';
+interface Props<T> {
+    table: Table<T>;
+    tableWidth: number;
+    stickyById: Map<string, StickyInfo>;
+    defaultTextAlign: 'left' | 'center' | 'right';
+    editable?: boolean;
+    draggable?: boolean;
+    setData?: React.Dispatch<React.SetStateAction<T[]>>;
+    setInternalData: React.Dispatch<React.SetStateAction<T[]>>;
+    selectable?: SelectableProps;
+    selectedRows: Set<string | number>;
+    setSelectedRows: React.Dispatch<React.SetStateAction<Set<string | number>>>;
+    disableSelectRow: (string | number)[];
+    expandable?: ExpandableProps<T>;
+    expandedRows: Set<string | number>;
+    setExpandedRows: React.Dispatch<React.SetStateAction<Set<string | number>>>;
+    stripedRows?: boolean;
+    hoverableRow?: boolean;
+}
+export declare function Body<T>({ table, tableWidth, stickyById, defaultTextAlign, editable, draggable, setData, setInternalData, selectable, selectedRows, setSelectedRows, disableSelectRow, expandable, expandedRows, setExpandedRows, stripedRows, hoverableRow, }: Props<T>): import("react/jsx-runtime").JSX.Element;
+export {};
