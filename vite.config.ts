@@ -4,11 +4,9 @@ import path from 'path';
 
 export default defineConfig(({ command }) => {
     const plugins = [react()];
-
     if (command === 'serve') {
         return {
             root: 'src/dev',
-            // plugins: [react()],
             plugins,
             server: {
                 host: '0.0.0.0',
@@ -25,7 +23,6 @@ export default defineConfig(({ command }) => {
             },
         };
     }
-
     return {
         plugins,
         build: {
@@ -44,9 +41,5 @@ export default defineConfig(({ command }) => {
                 ],
             },
         },
-        // esbuild: {
-        //     jsx: 'automatic',
-        //     jsxDev: false,
-        // },
     };
 });

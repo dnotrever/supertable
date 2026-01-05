@@ -2,10 +2,8 @@ import { useState, useRef, useLayoutEffect, useCallback, useEffect, useMemo } fr
 
 import SimpleBar from 'simplebar-react';
 import type SimpleBarCore from 'simplebar-core';
-// import 'simplebar-react/dist/simplebar.min.css';
 
 import type { TabelaProps, Columns, SortState } from './Table.types';
-// import '../styles/Table.scss';
 
 import { useTable } from '../hooks/useTable';
 import { useTableWidth } from '../hooks/useTableWidth';
