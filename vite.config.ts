@@ -3,10 +3,13 @@ import react from '@vitejs/plugin-react';
 import path from 'path';
 
 export default defineConfig(({ command }) => {
+    const plugins = [react()];
+
     if (command === 'serve') {
         return {
             root: 'src/dev',
-            plugins: [react()],
+            // plugins: [react()],
+            plugins,
             server: {
                 host: '0.0.0.0',
                 port: 5173,
@@ -24,12 +27,14 @@ export default defineConfig(({ command }) => {
     }
 
     return {
+        plugins,
         build: {
             emptyOutDir: false,
             lib: {
                 entry: path.resolve('src/index.ts'),
                 formats: ['es'],
                 fileName: () => 'index.js',
+                cssFileName: 'super-table',
             },
             rollupOptions: {
                 external: [
@@ -39,9 +44,9 @@ export default defineConfig(({ command }) => {
                 ],
             },
         },
-        esbuild: {
-            jsx: 'automatic',
-            jsxDev: false,
-        },
+        // esbuild: {
+        //     jsx: 'automatic',
+        //     jsxDev: false,
+        // },
     };
 });
