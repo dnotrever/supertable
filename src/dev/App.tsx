@@ -11,108 +11,112 @@ export default function App() {
         {
             accessorKey: 'id',
             header: 'ID',
-            meta: {
-                widthSize: '50px',
-                // widthSize: '5%',
-                // sticky: 'left',
-                resizable: false,
-                reorderable: false,
-                sortable: false,
-                textAlign: 'center'
-            },
         },
-        {
-            accessorKey: 'coluna1',
-            header: 'Coluna A',
-            meta: {
-                widthSize: '300px',
-                // widthSize: '15%',
-                // sticky: 'left',
-                // internalHeader: 'Header Interno A',
-                // internalFooter: 'Footer Interno A',
-            },
-        },
-        {
-            accessorKey: 'coluna2',
-            header: 'Coluna B',
-            meta: {
-                widthSize: '300px',
-                // widthSize: '15%',
-            },
-            cell: ({ row }) => {
-                const colB = row.original.coluna2;
-                const clique = () => { alert(`Você clicou para exibir: ${colB}`) }
-                return (
-                    <a style={{ color: 'blue', textDecoration: 'underline', cursor: 'pointer' }} onClick={clique}>
-                        {colB} Cust.
-                    </a>
-                );
-            },
-        },
-        {
-            accessorKey: 'coluna3',
-            header: 'Coluna C',
-            meta: {
-                widthSize: '300px',
-                // widthSize: '15%',
-                // internalHeader: () => {
-                //     return (
-                //         <div style={{ color: 'red', fontWeight: 'bold' }}>
-                //             Header Interno Cust.
-                //         </div>
-                //     );
-                // },
-                // internalFooter: () => {
-                //     return (
-                //         <div style={{ color: 'green', fontWeight: 'bold' }}>
-                //             Footer Interno Cust.
-                //         </div>
-                //     );
-                // },
-            },
-        },
-        {
-            accessorKey: 'coluna4',
-            // header: 'Coluna D',
-            header: () => (
-                <div style={{ color: 'goldenrod', fontWeight: 'bold' }}>
-                    Coluna D Cust.
-                </div>
-            ),
-            meta: {
-                widthSize: '300px',
-                // widthSize: '15%',
-            },
-        },
-        {
-            accessorKey: 'coluna5',
-            header: 'Coluna E',
-            meta: {
-                widthSize: '300px',
-                // widthSize: '15%',
-            },
-        },
-        {
-            accessorKey: 'coluna6',
-            // header: 'Coluna F',
-            header: () => (
-                <input type="text" style={{ height: '12px', padding: '8px 8px', borderRadius: '4px', border: '1px solid #aaa' }} />
-            ),
-            meta: {
-                widthSize: '300px',
-                // widthSize: '20%',
-                // sticky: 'right',
-                sortable: false,
-                resizable: false,
-                reorderable: false,
-                // textAlign: 'center',
-                // internalHeader: () => {
-                //     return (
-                //         <input type="text" style={{ height: '12px', padding: '8px 8px', borderRadius: '4px', border: '1px solid #aaa' }} />
-                //     );
-                // },
-            },
-        },
+        // {
+        //     accessorKey: 'id',
+        //     header: 'ID',
+        //     meta: {
+        //         widthSize: '50px',
+        //         // widthSize: '5%',
+        //         // sticky: 'left',
+        //         resizable: false,
+        //         reorderable: false,
+        //         sortable: false,
+        //         textAlign: 'center'
+        //     },
+        // },
+        // {
+        //     accessorKey: 'coluna1',
+        //     header: 'Coluna A',
+        //     meta: {
+        //         widthSize: '300px',
+        //         // widthSize: '15%',
+        //         // sticky: 'left',
+        //         // internalHeader: 'Header Interno A',
+        //         // internalFooter: 'Footer Interno A',
+        //     },
+        // },
+        // {
+        //     accessorKey: 'coluna2',
+        //     header: 'Coluna B',
+        //     meta: {
+        //         widthSize: '300px',
+        //         // widthSize: '15%',
+        //     },
+        //     cell: ({ row }) => {
+        //         const colB = row.original.coluna2;
+        //         const clique = () => { alert(`Você clicou para exibir: ${colB}`) }
+        //         return (
+        //             <a style={{ color: 'blue', textDecoration: 'underline', cursor: 'pointer' }} onClick={clique}>
+        //                 {colB} Cust.
+        //             </a>
+        //         );
+        //     },
+        // },
+        // {
+        //     accessorKey: 'coluna3',
+        //     header: 'Coluna C',
+        //     meta: {
+        //         widthSize: '300px',
+        //         // widthSize: '15%',
+        //         // internalHeader: () => {
+        //         //     return (
+        //         //         <div style={{ color: 'red', fontWeight: 'bold' }}>
+        //         //             Header Interno Cust.
+        //         //         </div>
+        //         //     );
+        //         // },
+        //         // internalFooter: () => {
+        //         //     return (
+        //         //         <div style={{ color: 'green', fontWeight: 'bold' }}>
+        //         //             Footer Interno Cust.
+        //         //         </div>
+        //         //     );
+        //         // },
+        //     },
+        // },
+        // {
+        //     accessorKey: 'coluna4',
+        //     // header: 'Coluna D',
+        //     header: () => (
+        //         <div style={{ color: 'goldenrod', fontWeight: 'bold' }}>
+        //             Coluna D Cust.
+        //         </div>
+        //     ),
+        //     meta: {
+        //         widthSize: '300px',
+        //         // widthSize: '15%',
+        //     },
+        // },
+        // {
+        //     accessorKey: 'coluna5',
+        //     header: 'Coluna E',
+        //     meta: {
+        //         widthSize: '300px',
+        //         // widthSize: '15%',
+        //     },
+        // },
+        // {
+        //     accessorKey: 'coluna6',
+        //     // header: 'Coluna F',
+        //     header: () => (
+        //         <input type="text" style={{ height: '12px', padding: '8px 8px', borderRadius: '4px', border: '1px solid #aaa' }} />
+        //     ),
+        //     meta: {
+        //         widthSize: '300px',
+        //         // widthSize: '20%',
+        //         // sticky: 'right',
+        //         sortable: false,
+        //         resizable: false,
+        //         reorderable: false,
+        //         // textAlign: 'center',
+        //         // internalHeader: () => {
+        //         //     return (
+        //         //         <input type="text" style={{ height: '12px', padding: '8px 8px', borderRadius: '4px', border: '1px solid #aaa' }} />
+        //         //     );
+        //         // },
+        //     },
+        // },
     ];
 
     const rodape = (
@@ -171,23 +175,23 @@ export default function App() {
 
                     header={colunas}
                     data={users}
-                    footer={rodape}
+                    // footer={rodape}
 
-                    onDataChange={setTableData}
+                    // onDataChange={setTableData}
 
-                    tableHeight='calc(100vh - 320px)'
+                    // tableHeight='calc(100vh - 320px)'
                     // defaultTextAlign='center'
 
-                    resizableCol
-                    reorderableCol
+                    // resizableCol
+                    // reorderableCol
 
-                    sortableCol
+                    // sortableCol
                     // sortableCol={false}
-                    onSortChange={setSort}
+                    // onSortChange={setSort}
 
-                    editable
+                    // editable
 
-                    draggable
+                    // draggable
                     // draggableSticky
 
                     // selectable={{
@@ -208,18 +212,18 @@ export default function App() {
                     //     ),
                     // }}
 
-                    pagination={{
-                        currentPage,
-                        pageSize,
-                        totalItems,
-                        pageSizeOptions: [15, 30, 60, 120],
-                        onPageChange: handlePageChange,
-                    }}
+                    // pagination={{
+                    //     currentPage,
+                    //     pageSize,
+                    //     totalItems,
+                    //     pageSizeOptions: [15, 30, 60, 120],
+                    //     onPageChange: handlePageChange,
+                    // }}
 
-                    hoverableRow
-                    stripedRows
+                    // hoverableRow
+                    // stripedRows
                     // borders='simple'
-                    borders='none'
+                    // borders='none'
 
                 />
 

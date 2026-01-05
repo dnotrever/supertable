@@ -54,5 +54,9 @@ export default defineConfig(({ command }) => {
                 },
             },
         },
+        esbuild: {
+            jsx: 'automatic',
+            jsxDev: false,
+        },
     };
 });
