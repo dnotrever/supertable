@@ -11,9 +11,9 @@
             "types": "./dist/index.d.ts",
             "import": "./dist/index.js"
         },
-        "./style.css": "./dist/style.css"
+        "./super-table.css": "./dist/super-table.css"
     },
-    "style": "./dist/style.css",
+    "style": "./dist/super-table.css",
     "sideEffects": [
         "**/*.css"
     ],
