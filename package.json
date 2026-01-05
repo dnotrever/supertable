@@ -12,7 +12,7 @@
             "import": "./dist/index.js"
         },
         "./super-table.css": {
-            "style": "./dist/super-table.css",
+            "import": "./dist/super-table.css",
             "default": "./dist/super-table.css"
         }
     },
