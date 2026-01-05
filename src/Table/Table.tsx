@@ -48,7 +48,7 @@ export function Table<T>({
     expandable,
     pagination,
     hoverableRow,
-    borders,
+    borders='full',
 }: TabelaProps<T>) {
 
     //================================================================

@@ -2913,7 +2913,7 @@ function pr({
   expandable: p,
   pagination: v,
   hoverableRow: m,
-  borders: _
+  borders: _ = "full"
 }) {
   const R = k(null), b = Z(
     (V) => {
