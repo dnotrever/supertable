@@ -24,15 +24,8 @@ export default defineConfig(({ command }) => {
     }
 
     return {
-        plugins: [
-            react({
-                jsxRuntime: 'automatic',
-                jsxImportSource: 'react',
-            }),
-        ],
         build: {
             emptyOutDir: false,
-            minify: true,
             lib: {
                 entry: path.resolve('src/index.ts'),
                 formats: ['es'],
@@ -44,14 +37,6 @@ export default defineConfig(({ command }) => {
                     'react-dom',
                     'react/jsx-runtime',
                 ],
-                output: {
-                    assetFileNames: (assetInfo) => {
-                        if (assetInfo.name?.endsWith('.css')) {
-                            return 'style.css';
-                        }
-                        return '[name][extname]';
-                    },
-                },
             },
         },
         esbuild: {
