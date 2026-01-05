@@ -3071,7 +3071,7 @@ function pr({
         )
       ] })
     ] }),
-    /* @__PURE__ */ S(Rn, { table: Y, children: n }),
+    n && /* @__PURE__ */ S(Rn, { table: Y, children: n }),
     v && /* @__PURE__ */ S(
       xn,
       {

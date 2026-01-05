@@ -316,9 +316,13 @@ export function Table<T>({
 
             </div>
 
-            <ExternalFooter table={table}>
-                {footer}
-            </ExternalFooter>
+            {
+                footer && (
+                    <ExternalFooter table={table}>
+                        {footer}
+                    </ExternalFooter>
+                )
+            }
 
             {
                 pagination && (
