@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 
 import type { Columns, SortState } from '../Table/Table.types';
 import { Table } from '../Table/Table';
+import '../styles/Table.scss';
+import 'simplebar-react/dist/simplebar.min.css';
 
 import { getUsers, type User } from './api_test';
 
@@ -11,48 +13,44 @@ export default function App() {
         {
             accessorKey: 'id',
             header: 'ID',
+            meta: {
+                widthSize: '50px',
+                // widthSize: '5%',
+                // sticky: 'left',
+                resizable: false,
+                reorderable: false,
+                sortable: false,
+                textAlign: 'center'
+            },
         },
-        // {
-        //     accessorKey: 'id',
-        //     header: 'ID',
-        //     meta: {
-        //         widthSize: '50px',
-        //         // widthSize: '5%',
-        //         // sticky: 'left',
-        //         resizable: false,
-        //         reorderable: false,
-        //         sortable: false,
-        //         textAlign: 'center'
-        //     },
-        // },
-        // {
-        //     accessorKey: 'coluna1',
-        //     header: 'Coluna A',
-        //     meta: {
-        //         widthSize: '300px',
-        //         // widthSize: '15%',
-        //         // sticky: 'left',
-        //         // internalHeader: 'Header Interno A',
-        //         // internalFooter: 'Footer Interno A',
-        //     },
-        // },
-        // {
-        //     accessorKey: 'coluna2',
-        //     header: 'Coluna B',
-        //     meta: {
-        //         widthSize: '300px',
-        //         // widthSize: '15%',
-        //     },
-        //     cell: ({ row }) => {
-        //         const colB = row.original.coluna2;
-        //         const clique = () => { alert(`Você clicou para exibir: ${colB}`) }
-        //         return (
-        //             <a style={{ color: 'blue', textDecoration: 'underline', cursor: 'pointer' }} onClick={clique}>
-        //                 {colB} Cust.
-        //             </a>
-        //         );
-        //     },
-        // },
+        {
+            accessorKey: 'coluna1',
+            header: 'Coluna A',
+            meta: {
+                widthSize: '300px',
+                // widthSize: '15%',
+                // sticky: 'left',
+                // internalHeader: 'Header Interno A',
+                // internalFooter: 'Footer Interno A',
+            },
+        },
+        {
+            accessorKey: 'coluna2',
+            header: 'Coluna B',
+            meta: {
+                widthSize: '300px',
+                // widthSize: '15%',
+            },
+            cell: ({ row }) => {
+                const colB = row.original.coluna2;
+                const clique = () => { alert(`Você clicou para exibir: ${colB}`) }
+                return (
+                    <a style={{ color: 'blue', textDecoration: 'underline', cursor: 'pointer' }} onClick={clique}>
+                        {colB} Cust.
+                    </a>
+                );
+            },
+        },
         // {
         //     accessorKey: 'coluna3',
         //     header: 'Coluna C',
@@ -125,11 +123,11 @@ export default function App() {
         </div>
     );
 
-    // const conteudoExpandido = (row: User) => (
-    //     <div style={{ padding: '5px 10px' }}>
-    //         <div>Detalhes de {row.coluna1}</div>
-    //     </div>
-    // );
+    const conteudoExpandido = (row: User) => (
+        <div style={{ padding: '5px 10px' }}>
+            <div>Detalhes de {row.coluna1}</div>
+        </div>
+    );
 
     // Pagination e Sortable ====================================================================================
 
@@ -151,6 +149,7 @@ export default function App() {
             .then(res => {
                 setTotalItems(res.total);
                 setUsers(res.data);
+                // setTableData(res.data);
             });
     }, [currentPage, pageSize, sort]);
 
@@ -159,13 +158,15 @@ export default function App() {
         setPageSize(newPageSize);
     };
 
-    //=================================================================================================
+    // Data =====================================================================================================
 
-    const [tableData, setTableData] = useState<User[]>(users);
+    const [tableData, setTableData] = useState<User[]>([]);
 
     const handleSubmit = () => {
-        console.log('Dados capturados:', tableData);
+        setTableData(tableData);
     };
+
+    //===========================================================================================================
 
     return (
         <div style={{ width: '100%', display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
@@ -177,7 +178,7 @@ export default function App() {
                     data={users}
                     // footer={rodape}
 
-                    // onDataChange={setTableData}
+                    onDataChange={setTableData}
 
                     // tableHeight='calc(100vh - 320px)'
                     // defaultTextAlign='center'
@@ -189,7 +190,7 @@ export default function App() {
                     // sortableCol={false}
                     // onSortChange={setSort}
 
-                    // editable
+                    editable
 
                     // draggable
                     // draggableSticky
@@ -212,13 +213,13 @@ export default function App() {
                     //     ),
                     // }}
 
-                    // pagination={{
-                    //     currentPage,
-                    //     pageSize,
-                    //     totalItems,
-                    //     pageSizeOptions: [15, 30, 60, 120],
-                    //     onPageChange: handlePageChange,
-                    // }}
+                    pagination={{
+                        currentPage,
+                        pageSize,
+                        totalItems,
+                        pageSizeOptions: [15, 30, 60, 120],
+                        onPageChange: handlePageChange,
+                    }}
 
                     // hoverableRow
                     // stripedRows
@@ -233,6 +234,10 @@ export default function App() {
                 >
                     Submit
                 </button>
+
+                <div style={{ backgroundColor: '#ddd', padding: '10px', borderRadius: '5px', height: 'calc(100vh - 540px)', width: '500px', overflow: 'auto' }}>
+                    <pre>{JSON.stringify(tableData, null, 2)}</pre>
+                </div>
 
             </div>
         </div>
