@@ -188,7 +188,7 @@ export default function App() {
 
                     // sortableCol
                     // sortableCol={false}
-                    // onSortChange={setSort}
+                    onSortChange={setSort}
 
                     editable
 
@@ -225,6 +225,7 @@ export default function App() {
                     // stripedRows
                     // borders='simple'
                     // borders='none'
+                    style='hannah'
 
                 />
 

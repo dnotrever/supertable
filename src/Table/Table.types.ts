@@ -41,6 +41,7 @@ export interface TabelaProps<T> {
     stripedRows?: boolean;
     hoverableRow?: boolean;
     borders?: 'full' | 'simple' | 'none';
+    style?: 'default' | 'hannah';
 }
 
 export interface PaginationProps {

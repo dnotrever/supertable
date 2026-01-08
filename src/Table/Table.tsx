@@ -47,6 +47,7 @@ export function Table<T>({
     pagination,
     hoverableRow,
     borders='full',
+    style = 'default',
 }: TabelaProps<T>) {
 
     //================================================================
@@ -234,7 +235,7 @@ export function Table<T>({
     //================================================================
 
     return (
-        <div className={`table-wrapper borders-${borders}`} style={{ height: tableHeight }}>
+        <div className={`table-wrapper borders-${borders} ${style}-style`} style={{ height: tableHeight }}>
 
             <ExternalHeader
                 table={table}

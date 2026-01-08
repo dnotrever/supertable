@@ -144,20 +144,23 @@ export function Pagination({
 
                     <label>Itens por página:</label>
 
-                    <select
-                        value={pageSize}
-                        onChange={e =>
-                            onPageChange(1, Number(e.target.value))
-                        }
-                    >
-                        {
-                            normalizedPageSizeOptions.map(size => (
-                                <option key={size} value={size}>
-                                    {size}
-                                </option>
-                            ))
-                        }
-                    </select>
+                    <div className='select-wrapper'>
+                        <select
+                            className='custom-select'
+                            value={pageSize}
+                            onChange={e =>
+                                onPageChange(1, Number(e.target.value))
+                            }
+                        >
+                            {
+                                normalizedPageSizeOptions.map(size => (
+                                    <option key={size} value={size}>
+                                        {size}
+                                    </option>
+                                ))
+                            }
+                        </select>
+                    </div>
 
                 </div>
 
