@@ -487,13 +487,13 @@
             justify-content: center;
             cursor: pointer;
 
-            &:hover {
+            &:not(.ellipsis):not(:disabled):hover {
                 background: #ddd;
                 border-color: #aaa;
             }
 
             &:disabled {
-                opacity: 0.8;
+                opacity: 0.5;
                 cursor: not-allowed;
             }
 
@@ -745,6 +745,12 @@
 
 .style-hannah {
 
+    a {
+        &:hover {
+            text-decoration: underline !important;
+        }
+    }
+
     .table-external-header {
 
         background-color: inherit !important;
@@ -834,18 +840,22 @@
         padding-top: 15px !important;
         background-color: inherit !important;
 
-        .pagination-btn:not(.pagination-arrow) {
-            font-size: 12px !important;
-        }
-
         .pagination-btn {
             border-color: #3b78f0 !important;
             color: #3b78f0 !important;
+            width: 38px;
+            min-width: 38px;
+            height: 22px;
+            min-height: 22px;
         }
 
-        .pagination-btn:hover {
+        .pagination-btn:not(.ellipsis):not(:disabled):hover {
             background-color: #3b78f0 !important;
             color: #ffffff !important;
+        }
+
+        .pagination-btn:not(.pagination-arrow) {
+            font-size: 12px !important;
         }
 
         .pagination-btn.active {
@@ -855,11 +865,12 @@
 
         .pagination-arrow {
             font-size: 16px !important;
-            padding-bottom: 2px !important;
+            padding-bottom: 2.5px !important;
         }
 
         .pagination-info {
             color: #999999 !important;
+            font-size: 13px !important;
         }
 
         .pagination-select {
