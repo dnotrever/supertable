@@ -2995,7 +2995,7 @@ function hr({
   });
   return je(() => {
     M.current?.recalculate();
-  }, [ce]), /* @__PURE__ */ W("div", { className: `table-wrapper borders-${_} ${y}-style`, style: { height: t }, children: [
+  }, [ce]), /* @__PURE__ */ W("div", { className: `super-table-wrapper borders-${_} style-${y}`, style: { height: t }, children: [
     /* @__PURE__ */ S(
       Et,
       {

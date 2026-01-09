@@ -235,7 +235,7 @@ export function Table<T>({
     //================================================================
 
     return (
-        <div className={`table-wrapper borders-${borders} ${style}-style`} style={{ height: tableHeight }}>
+        <div className={`super-table-wrapper borders-${borders} style-${style}`} style={{ height: tableHeight }}>
 
             <ExternalHeader
                 table={table}
