@@ -8,6 +8,11 @@ interface PaginationProps {
     pageSize: number;
     pageSizeOptions?: number[];
     onPageChange: (page: number, pageSize: number) => void;
+    customPageSizeSelect?: (props: {
+        pageSize: number;
+        pageSizeOptions: number[];
+        onPageSizeChange: (newSize: number) => void;
+    }) => React.ReactNode;
 }
 
 function getPages(current: number, total: number, delta = 2): PageItem[] {
@@ -48,6 +53,7 @@ export function Pagination({
     pageSize,
     pageSizeOptions = [10, 25, 50, 100, 200],
     onPageChange,
+    customPageSizeSelect,
 }: PaginationProps) {
 
     const totalPages = Math.max(1, Math.ceil(totalItems / pageSize));
@@ -142,25 +148,36 @@ export function Pagination({
 
                 <div className="pagination-select">
 
-                    <label>Itens por página:</label>
-
-                    <div className='select-wrapper'>
-                        <select
-                            className='custom-select'
-                            value={pageSize}
-                            onChange={e =>
-                                onPageChange(1, Number(e.target.value))
-                            }
-                        >
-                            {
-                                normalizedPageSizeOptions.map(size => (
-                                    <option key={size} value={size}>
-                                        {size}
-                                    </option>
-                                ))
-                            }
-                        </select>
-                    </div>
+                    {
+                        customPageSizeSelect ? (
+                            customPageSizeSelect({
+                                pageSize,
+                                pageSizeOptions: normalizedPageSizeOptions,
+                                onPageSizeChange: (newSize) => onPageChange(1, newSize),
+                            })
+                        ) : (
+                            <>
+                                <label>Itens por página:</label>
+                                <div className='select-wrapper'>
+                                    <select
+                                        className='custom-select'
+                                        value={pageSize}
+                                        onChange={e =>
+                                            onPageChange(1, Number(e.target.value))
+                                        }
+                                    >
+                                        {
+                                            normalizedPageSizeOptions.map(size => (
+                                                <option key={size} value={size}>
+                                                    {size}
+                                                </option>
+                                            ))
+                                        }
+                                    </select>
+                                </div>
+                            </>
+                        )
+                    }
 
                 </div>
 

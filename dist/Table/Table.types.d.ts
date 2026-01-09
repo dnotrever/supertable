@@ -43,6 +43,11 @@ export interface PaginationProps {
     initialPageSize?: number;
     pageSizeOptions?: number[];
     onPageChange: (page: number, pageSize: number) => void;
+    customPageSizeSelect?: (props: {
+        pageSize: number;
+        pageSizeOptions: number[];
+        onPageSizeChange: (newSize: number) => void;
+    }) => ReactNode;
 }
 export interface SortState {
     columnId: string;
