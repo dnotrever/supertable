@@ -198,8 +198,8 @@ export default function App() {
                     selectable={{
                         // sticky: true,
                         // label: 'Selecionar',
-                        // disableSelectRow: [2, 4, 6, 8],
-                        // initialSelectRow: [1, 3, 5]
+                        disableSelectRow: [2, 4, 6, 8],
+                        initialSelectRow: [1, 3, 5]
                     }}
 
                     // expandable={{
