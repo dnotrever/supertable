@@ -139,7 +139,7 @@
     }
 
     .col-drag-handle {
-        cursor: grab;
+        cursor: grab !important;
 
         &:hover {
             cursor: grab;
@@ -745,13 +745,22 @@
 
 .style-hannah {
 
+    .is-sorted-asc .sort-indicator {
+        border-bottom: 6px solid #aaaaaa !important;
+    }
+
+    .is-sorted-desc .sort-indicator {
+        border-top: 6px solid #aaaaaa !important;
+    }
+
     a {
         &:hover {
             text-decoration: underline !important;
         }
     }
 
-    .table-external-header {
+    .table-external-header,
+    .table-internal-header {
 
         background-color: inherit !important;
         margin-bottom: 8px !important;
@@ -773,6 +782,16 @@
     
         }
         
+    }
+
+    .table-internal-header {
+        thead {
+            th {
+                height: 16px !important;
+                padding-top: 0 !important;
+                padding-bottom: 8px !important;
+            }
+        }
     }
 
     tbody {
@@ -808,7 +827,8 @@
 
     }
 
-    .table-external-footer {
+    .table-external-footer,
+    .table-internal-footer {
 
         background-color: inherit !important;
         margin-top: 8px !important;
@@ -831,6 +851,16 @@
 
         }
 
+    }
+
+    .table-internal-footer {
+        tfoot {
+            td {
+                height: 16px !important;
+                padding-top: 10px !important;
+                padding-bottom: 0 !important;
+            }
+        }
     }
 
     .table-pagination {

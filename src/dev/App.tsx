@@ -45,7 +45,7 @@ export default function App() {
                 const colB = row.original.coluna2;
                 const clique = () => { alert(`Você clicou para exibir: ${colB}`) }
                 return (
-                    <a style={{ color: 'blue', textDecoration: 'underline', cursor: 'pointer' }} onClick={clique}>
+                    <a style={{ color: 'blue' }} onClick={clique}>
                         {colB} Cust.
                     </a>
                 );
@@ -169,7 +169,7 @@ export default function App() {
     //===========================================================================================================
 
     return (
-        <div style={{ width: '100%', display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
+        <div style={{ width: '100%', display: 'flex', justifyContent: 'center', marginTop: '20px', fontFamily: 'Open Sans, sans-serif' }}>
             <div style={{ width: '90%' }}>
 
                 <Table
@@ -190,17 +190,17 @@ export default function App() {
                     // sortableCol={false}
                     onSortChange={setSort}
 
-                    editable
+                    // editable
 
-                    // draggable
+                    draggable
                     // draggableSticky
 
-                    // selectable={{
-                    //     sticky: true,
-                    //     // label: 'Selecionar',
-                    //     disableSelectRow: [2, 4, 6, 8],
-                    //     initialSelectRow: [1, 3, 5]
-                    // }}
+                    selectable={{
+                        // sticky: true,
+                        // label: 'Selecionar',
+                        // disableSelectRow: [2, 4, 6, 8],
+                        // initialSelectRow: [1, 3, 5]
+                    }}
 
                     // expandable={{
                     //     sticky: true,
@@ -243,4 +243,5 @@ export default function App() {
             </div>
         </div>
     );
+
 }
