@@ -895,7 +895,7 @@
 
         .pagination-arrow {
             font-size: 16px !important;
-            padding-bottom: 2.5px !important;
+            padding-bottom: 3px !important;
         }
 
         .pagination-info {
@@ -915,22 +915,21 @@
                 display: inline-block !important;
             }
 
-            .select-wrapper select,
-            select.custom-select {
+            .select-wrapper select {
                 appearance: none !important;
                 -webkit-appearance: none !important;
                 -moz-appearance: none !important;
                 background-color: #ffffff !important;
                 border: 1px solid #adb5bd !important;
                 border-radius: 4px !important;
-                padding: 4px 30px 4px 12px !important;
-                font-size: 14px !important;
+                padding: 3px 30px 3px 12px !important;
+                font-size: 13px !important;
                 color: #495057 !important;
                 cursor: pointer !important;
                 transition: border-color 0.15s ease-in-out !important;
                 outline: none !important;
-                height: 32px !important;
-                min-height: 32px !important;
+                height: 28px !important;
+                min-height: 28px !important;
                 width: 80px !important;
                 min-width: 80px !important;
                 line-height: 1.5 !important;
