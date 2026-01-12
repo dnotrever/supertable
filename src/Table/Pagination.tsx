@@ -145,7 +145,6 @@ export function Pagination({
                     <label>Itens por página:</label>
                     <div className='select-wrapper'>
                         <select
-                            className='custom-select'
                             value={pageSize}
                             onChange={e =>
                                 onPageChange(1, Number(e.target.value))
