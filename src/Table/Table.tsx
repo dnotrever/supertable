@@ -45,6 +45,9 @@ export function Table<T>({
     selectable,
     expandable,
     pagination,
+    loading,
+    loadingCustom,
+    noResultMessage = 'Nenhum resultado encontrado.',
     hoverableRow,
     borders='full',
     style = 'default',
@@ -297,6 +300,10 @@ export function Table<T>({
                             expandable={expandable}
                             expandedRows={expandedRows}
                             setExpandedRows={setExpandedRows}
+                            loading={loading}
+                            loadingCustom={loadingCustom}
+                            noResultMessage={noResultMessage}
+                            totalItems={pagination?.totalItems}
                             stripedRows={stripedRows}
                             hoverableRow={hoverableRow}
                         />

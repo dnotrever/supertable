@@ -7,6 +7,8 @@ export type RenderNode =
 
 export type Columns<T> = ColumnDef<T, unknown>;
 
+export type LoadingType = 'default' | 'spinner' | 'placeholder' | 'custom';
+
 export interface SelectableProps {
     label?: string;
     sticky?: boolean;
@@ -38,6 +40,9 @@ export interface TabelaProps<T> {
     sortableCol?: boolean;
     onSortChange?: (sort: SortState | null) => void;
     onDataChange?: (data: T[]) => void;
+    loading?: LoadingType;
+    loadingCustom?: ReactNode;
+    noResultMessage?: ReactNode;
     stripedRows?: boolean;
     hoverableRow?: boolean;
     borders?: 'full' | 'simple' | 'none';

@@ -22,6 +22,10 @@ interface Props<T> {
     expandable?: ExpandableProps<T>;
     expandedRows: Set<string | number>;
     setExpandedRows: React.Dispatch<React.SetStateAction<Set<string | number>>>;
+    loading?: 'default' | 'spinner' | 'placeholder' | 'custom';
+    loadingCustom?: React.ReactNode;
+    noResultMessage?: React.ReactNode;
+    totalItems?: number;
     stripedRows?: boolean;
     hoverableRow?: boolean;
 }
@@ -44,7 +48,12 @@ export function Body<T>({
     setExpandedRows,
     stripedRows = false,
     hoverableRow = false,
+    loading,
+    loadingCustom,
+    noResultMessage,
+    totalItems,
 }: Props<T>) {
+
 
     //================================================================
     // Row State Setter
@@ -199,7 +208,78 @@ export function Body<T>({
             />
 
             <tbody>
-                {
+
+                {/* ===================== LOADING ===================== */}
+                {loading === 'default' && (
+                    <tr className="table-loading-row">
+                        <td
+                            colSpan={table.getAllColumns().length}
+                            style={{ textAlign: 'center', padding: '20px' }}
+                        >
+                            Carregando dados...
+                        </td>
+                    </tr>
+                )}
+
+                {loading === 'spinner' && (
+                    <tr className="table-loading-row">
+                        <td
+                            colSpan={table.getAllColumns().length}
+                            style={{ textAlign: 'center', padding: '20px' }}
+                        >
+                            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                                <div className="table-spinner" />
+                            </div>
+                        </td>
+                    </tr>
+                )}
+
+                {loading === 'custom' && (
+                    <tr className="table-loading-row">
+                        <td
+                            colSpan={table.getAllColumns().length}
+                            style={{ textAlign: 'center', padding: '20px' }}
+                        >
+                            {loadingCustom}
+                        </td>
+                    </tr>
+                )}
+
+                {/* ===================== PLACEHOLDER (SKELETON) ===================== */}
+                {loading === 'placeholder' && (() => {
+
+                    const columnCount = table.getAllColumns().length;
+                    const placeholderRowCount = table.getState().pagination?.pageSize || 10;
+
+                    return Array.from({ length: placeholderRowCount }).map((_, rowIndex) => (
+                        <tr key={`placeholder-row-${rowIndex}`} className="table-placeholder-row">
+                            {Array.from({ length: columnCount }).map((__, colIndex) => (
+                                <td key={`placeholder-cell-${rowIndex}-${colIndex}`}>
+                                    <div className="table-placeholder-cell" />
+                                </td>
+                            ))}
+                        </tr>
+                    ));
+
+                })()}
+
+                {/* ===================== NO RESULTS ===================== */}
+                {!loading &&
+                    table.getRowModel().rows.length === 0 &&
+                    totalItems === 0 && (
+                        <tr className="table-no-results-row">
+                            <td
+                                colSpan={table.getAllColumns().length}
+                                style={{ textAlign: 'center', padding: '20px' }}
+                            >
+                                {noResultMessage}
+                            </td>
+                        </tr>
+                    )}
+
+                {/* ===================== DATA ===================== */}
+                {!loading &&
+                    table.getRowModel().rows.length > 0 &&
                     table.getRowModel().rows.map(row => {
 
                         const realIndex = row.index;
@@ -324,7 +404,7 @@ export function Body<T>({
                                                         }}
                                                     >
                                                         <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                            <path d="M4.5 9L7.5 6L4.5 3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                                                            <path d="M4.5 9L7.5 6L4.5 3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                                                         </svg>
                                                     </span>
                                                 </td>

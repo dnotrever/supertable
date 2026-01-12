@@ -139,7 +139,10 @@ export default function App() {
 
     const [sort, setSort] = useState<SortState | null>(null);
 
+    const [loading, setLoading] = useState(true);
+
     useEffect(() => {
+        setLoading(true);
         getUsers({
             page: currentPage,
             pageSize: pageSize,
@@ -149,7 +152,9 @@ export default function App() {
             .then(res => {
                 setTotalItems(res.total);
                 setUsers(res.data);
-                // setTableData(res.data);
+            })
+            .finally(() => {
+                setLoading(false);
             });
     }, [currentPage, pageSize, sort]);
 
@@ -220,6 +225,19 @@ export default function App() {
                         pageSizeOptions: [15, 30, 60, 120],
                         onPageChange: handlePageChange,
                     }}
+
+                    loading={loading ? 'spinner' : undefined}
+                    // loadingCustom={
+                    //     <div style={{ padding: '20px', textAlign: 'center', color: 'blue' }}>
+                    //         Os dados estão sendo carregados...
+                    //     </div>
+                    // }
+
+                    // noResultMessage={
+                    //     <div style={{ padding: '20px', color: '#888', fontSize: '14px' }}>
+                    //         Não há dados para exibir.
+                    //     </div>
+                    // }
 
                     // hoverableRow
                     // stripedRows
