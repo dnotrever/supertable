@@ -245,7 +245,6 @@ export function Body<T>({
                     </tr>
                 )}
 
-                {/* ===================== PLACEHOLDER (SKELETON) ===================== */}
                 {loading === 'placeholder' && (() => {
 
                     const columnCount = table.getAllColumns().length;
@@ -263,7 +262,6 @@ export function Body<T>({
 
                 })()}
 
-                {/* ===================== NO RESULTS ===================== */}
                 {!loading &&
                     table.getRowModel().rows.length === 0 &&
                     totalItems === 0 && (
@@ -277,7 +275,6 @@ export function Body<T>({
                         </tr>
                     )}
 
-                {/* ===================== DATA ===================== */}
                 {!loading &&
                     table.getRowModel().rows.length > 0 &&
                     table.getRowModel().rows.map(row => {

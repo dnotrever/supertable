@@ -18,8 +18,12 @@ interface Props<T> {
     expandable?: ExpandableProps<T>;
     expandedRows: Set<string | number>;
     setExpandedRows: React.Dispatch<React.SetStateAction<Set<string | number>>>;
+    loading?: 'default' | 'spinner' | 'placeholder' | 'custom';
+    loadingCustom?: React.ReactNode;
+    noResultMessage?: React.ReactNode;
+    totalItems?: number;
     stripedRows?: boolean;
     hoverableRow?: boolean;
 }
-export declare function Body<T>({ table, tableWidth, stickyById, defaultTextAlign, editable, draggable, setData, setInternalData, selectable, selectedRows, setSelectedRows, disableSelectRow, expandable, expandedRows, setExpandedRows, stripedRows, hoverableRow, }: Props<T>): import("react/jsx-runtime").JSX.Element;
+export declare function Body<T>({ table, tableWidth, stickyById, defaultTextAlign, editable, draggable, setData, setInternalData, selectable, selectedRows, setSelectedRows, disableSelectRow, expandable, expandedRows, setExpandedRows, stripedRows, hoverableRow, loading, loadingCustom, noResultMessage, totalItems, }: Props<T>): import("react/jsx-runtime").JSX.Element;
 export {};

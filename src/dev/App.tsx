@@ -129,17 +129,14 @@ export default function App() {
         </div>
     );
 
-    // Pagination e Sortable ====================================================================================
+    // States ====================================================================================
 
+    const [loading, setLoading] = useState(true);
     const [users, setUsers] = useState<User[]>([]);
-
     const [currentPage, setCurrentPage] = useState(1);
     const [pageSize, setPageSize] = useState(15);
     const [totalItems, setTotalItems] = useState(0);
-
     const [sort, setSort] = useState<SortState | null>(null);
-
-    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         setLoading(true);
@@ -163,13 +160,13 @@ export default function App() {
         setPageSize(newPageSize);
     };
 
-    // Data =====================================================================================================
+    // // Data =====================================================================================================
 
-    const [tableData, setTableData] = useState<User[]>([]);
+    // const [tableData, setTableData] = useState<User[]>([]);
 
-    const handleSubmit = () => {
-        setTableData(tableData);
-    };
+    // const handleSubmit = () => {
+    //     setTableData(tableData);
+    // };
 
     //===========================================================================================================
 
@@ -183,7 +180,7 @@ export default function App() {
                     data={users}
                     // footer={rodape}
 
-                    onDataChange={setTableData}
+                    // onDataChange={setTableData}
 
                     // tableHeight='calc(100vh - 320px)'
                     // defaultTextAlign='center'
@@ -247,7 +244,7 @@ export default function App() {
 
                 />
 
-                <button
+                {/* <button
                     style={{ margin: '20px 0', padding: '4px 16px', borderRadius: '5px', cursor: 'pointer', fontSize: '18px' }}
                     onClick={handleSubmit}
                 >
@@ -256,7 +253,7 @@ export default function App() {
 
                 <div style={{ backgroundColor: '#ddd', padding: '10px', borderRadius: '5px', height: 'calc(100vh - 540px)', width: '500px', overflow: 'auto' }}>
                     <pre>{JSON.stringify(tableData, null, 2)}</pre>
-                </div>
+                </div> */}
 
             </div>
         </div>
