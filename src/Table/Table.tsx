@@ -331,7 +331,6 @@ export function Table<T>({
                         pageSize={pagination.pageSize}
                         pageSizeOptions={pagination.pageSizeOptions}
                         onPageChange={pagination.onPageChange}
-                        customPageSizeSelect={pagination.customPageSizeSelect}
                     />
                 )
             }
