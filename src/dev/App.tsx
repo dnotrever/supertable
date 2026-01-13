@@ -42,12 +42,16 @@ export default function App() {
                 // widthSize: '15%',
             },
             cell: ({ row }) => {
-                const colB = row.original.coluna2;
-                const clique = () => { alert(`Você clicou para exibir: ${colB}`) }
                 return (
-                    <a style={{ color: 'blue' }} onClick={clique}>
-                        {colB} Cust.
-                    </a>
+                    <button
+                        style={{ padding: '4px 12px', borderRadius: '4px', cursor: 'pointer' }}
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            alert(`Button: ${row.original.coluna1}`);
+                        }}
+                    >
+                        Botão {row.original.coluna2}
+                    </button>
                 );
             },
         },
@@ -192,36 +196,36 @@ export default function App() {
                     // sortableCol={false}
                     onSortChange={setSort}
 
-                    // editable
+                    editable
 
                     // draggable
                     // draggableSticky
 
-                    // selectable={{
-                    //     // sticky: true,
-                    //     // label: 'Selecionar',
-                    //     disableSelectRow: [2, 4, 6, 8],
-                    //     initialSelectRow: [1, 3, 5]
-                    // }}
-
-                    expandable={{
+                    selectable={{
                         // sticky: true,
-                        clickRow: true,
-                        allButton: true,
-                        content: (row: User) => (
-                            <div style={{ padding: '5px 10px' }}>
-                                <div>Detalhes de {row.coluna1}</div>
-                            </div>
-                        ),
+                        // label: 'Selecionar',
+                        disableSelectRow: [2, 4, 6, 8],
+                        initialSelectRow: [1, 3, 5]
                     }}
 
-                    // pagination={{
-                    //     currentPage,
-                    //     pageSize,
-                    //     totalItems,
-                    //     pageSizeOptions: [15, 30, 60, 120],
-                    //     onPageChange: handlePageChange,
+                    // expandable={{
+                    //     // sticky: true,
+                    //     clickRow: true,
+                    //     allButton: true,
+                    //     content: (row: User) => (
+                    //         <div style={{ padding: '5px 10px' }}>
+                    //             <div>Detalhes de {row.coluna1}</div>
+                    //         </div>
+                    //     ),
                     // }}
+
+                    pagination={{
+                        currentPage,
+                        pageSize,
+                        totalItems,
+                        pageSizeOptions: [15, 30, 60, 120],
+                        onPageChange: handlePageChange,
+                    }}
 
                     loading={loading ? 'spinner' : undefined}
                     // loadingCustom={
@@ -242,7 +246,7 @@ export default function App() {
                     // borders='none'
                     style='hannah'
 
-                    onRowClick={(row) => alert(`Você clicou na linha de ${row.coluna1}`)}
+                    onRowClick={(row) => alert(`onRowClick: ${row.coluna1}`)}
 
                 />
 

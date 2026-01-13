@@ -179,30 +179,46 @@ export function Body<T>({
     // Expandable
     //================================================================
 
-    // const handleRowClick = (e: React.MouseEvent, row: any) => {
-    //     if (!expandable || !expandable.clickRow) return;
+    const isInteractiveElement = (el: HTMLElement): boolean => {
+        return Boolean(
+            el.closest('button') ||
+            el.closest('a') ||
+            el.closest('input') ||
+            el.closest('select') ||
+            el.closest('textarea') ||
+            el.closest('[data-stop-row-click]')
+        );
+    };
+
+    // const handleRowClick = (e: React.MouseEvent, row: { original: T; index: number }) => {
+
     //     if ((e.target as HTMLElement).closest('.col-drag-handle')) return;
-    //     if ((e.target as HTMLElement).tagName === 'INPUT' && (e.target as HTMLInputElement).type === 'checkbox') return;
-    //     if ((e.target as HTMLElement).tagName === 'A' || (e.target as HTMLElement).tagName === 'BUTTON') return;
-    //     if ((e.target as HTMLElement).tagName === 'INPUT' && editingCell) return;
-    //     const rowId = (row.original as any).id ?? row.index;
-    //     setExpandedRows(prev => {
-    //         const next = new Set(prev);
-    //         if (next.has(rowId)) {
-    //             next.delete(rowId);
-    //         } else {
-    //             next.add(rowId);
-    //         }
-    //         return next;
-    //     });
+    //     if ((e.target as HTMLElement).tagName === 'INPUT') return;
+    //     if ((e.target as HTMLElement).tagName === 'A') return;
+    //     if ((e.target as HTMLElement).tagName === 'BUTTON') return;
+
+    //     if (expandable?.clickRow) {
+    //         const rowId = (row.original as { id?: string | number }).id ?? row.index;
+    //         setExpandedRows(prev => {
+    //             const next = new Set(prev);
+    //             next.has(rowId) ? next.delete(rowId) : next.add(rowId);
+    //             return next;
+    //         });
+    //     }
+
+    //     if (onRowClick) {
+    //         onRowClick(row.original);
+    //     }
+
     // };
 
     const handleRowClick = (e: React.MouseEvent, row: { original: T; index: number }) => {
 
-        if ((e.target as HTMLElement).closest('.col-drag-handle')) return;
-        if ((e.target as HTMLElement).tagName === 'INPUT') return;
-        if ((e.target as HTMLElement).tagName === 'A') return;
-        if ((e.target as HTMLElement).tagName === 'BUTTON') return;
+        const target = e.target as HTMLElement;
+
+        if (isInteractiveElement(target)) return;
+
+        if (target.closest('.col-drag-handle')) return;
 
         if (expandable?.clickRow) {
             const rowId = (row.original as { id?: string | number }).id ?? row.index;
