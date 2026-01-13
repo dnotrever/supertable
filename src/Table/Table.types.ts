@@ -43,6 +43,7 @@ export interface TabelaProps<T> {
     loading?: LoadingType;
     loadingCustom?: ReactNode;
     noResultMessage?: ReactNode;
+    onRowClick?: (row: T) => void;
     stripedRows?: boolean;
     hoverableRow?: boolean;
     borders?: 'full' | 'simple' | 'none';

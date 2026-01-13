@@ -48,6 +48,7 @@ export function Table<T>({
     loading,
     loadingCustom,
     noResultMessage = 'Nenhum resultado encontrado.',
+    onRowClick,
     hoverableRow,
     borders='full',
     style = 'default',
@@ -303,6 +304,7 @@ export function Table<T>({
                             loading={loading}
                             loadingCustom={loadingCustom}
                             noResultMessage={noResultMessage}
+                            onRowClick={onRowClick}
                             totalItems={pagination?.totalItems}
                             stripedRows={stripedRows}
                             hoverableRow={hoverableRow}

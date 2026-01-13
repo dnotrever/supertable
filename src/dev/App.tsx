@@ -204,24 +204,24 @@ export default function App() {
                     //     initialSelectRow: [1, 3, 5]
                     // }}
 
-                    // expandable={{
-                    //     sticky: true,
-                    //     clickRow: true,
-                    //     allButton: true,
-                    //     content: (row: User) => (
-                    //         <div style={{ padding: '5px 10px' }}>
-                    //             <div>Detalhes de {row.coluna1}</div>
-                    //         </div>
-                    //     ),
-                    // }}
-
-                    pagination={{
-                        currentPage,
-                        pageSize,
-                        totalItems,
-                        pageSizeOptions: [15, 30, 60, 120],
-                        onPageChange: handlePageChange,
+                    expandable={{
+                        // sticky: true,
+                        clickRow: true,
+                        allButton: true,
+                        content: (row: User) => (
+                            <div style={{ padding: '5px 10px' }}>
+                                <div>Detalhes de {row.coluna1}</div>
+                            </div>
+                        ),
                     }}
+
+                    // pagination={{
+                    //     currentPage,
+                    //     pageSize,
+                    //     totalItems,
+                    //     pageSizeOptions: [15, 30, 60, 120],
+                    //     onPageChange: handlePageChange,
+                    // }}
 
                     loading={loading ? 'spinner' : undefined}
                     // loadingCustom={
@@ -241,6 +241,8 @@ export default function App() {
                     // borders='simple'
                     // borders='none'
                     style='hannah'
+
+                    onRowClick={(row) => alert(`Você clicou na linha de ${row.coluna1}`)}
 
                 />
 

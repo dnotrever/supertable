@@ -21,9 +21,10 @@ interface Props<T> {
     loading?: 'default' | 'spinner' | 'placeholder' | 'custom';
     loadingCustom?: React.ReactNode;
     noResultMessage?: React.ReactNode;
+    onRowClick?: (row: T) => void;
     totalItems?: number;
     stripedRows?: boolean;
     hoverableRow?: boolean;
 }
-export declare function Body<T>({ table, tableWidth, stickyById, defaultTextAlign, editable, draggable, setData, setInternalData, selectable, selectedRows, setSelectedRows, disableSelectRow, expandable, expandedRows, setExpandedRows, stripedRows, hoverableRow, loading, loadingCustom, noResultMessage, totalItems, }: Props<T>): import("react/jsx-runtime").JSX.Element;
+export declare function Body<T>({ table, tableWidth, stickyById, defaultTextAlign, editable, draggable, setData, setInternalData, selectable, selectedRows, setSelectedRows, disableSelectRow, expandable, expandedRows, setExpandedRows, stripedRows, hoverableRow, loading, loadingCustom, noResultMessage, onRowClick, totalItems, }: Props<T>): import("react/jsx-runtime").JSX.Element;
 export {};

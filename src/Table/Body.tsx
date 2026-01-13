@@ -25,6 +25,7 @@ interface Props<T> {
     loading?: 'default' | 'spinner' | 'placeholder' | 'custom';
     loadingCustom?: React.ReactNode;
     noResultMessage?: React.ReactNode;
+    onRowClick?: (row: T) => void;
     totalItems?: number;
     stripedRows?: boolean;
     hoverableRow?: boolean;
@@ -51,6 +52,7 @@ export function Body<T>({
     loading,
     loadingCustom,
     noResultMessage,
+    onRowClick,
     totalItems,
 }: Props<T>) {
 
@@ -177,22 +179,44 @@ export function Body<T>({
     // Expandable
     //================================================================
 
-    const handleRowClick = (e: React.MouseEvent, row: any) => {
-        if (!expandable || !expandable.clickRow) return;
+    // const handleRowClick = (e: React.MouseEvent, row: any) => {
+    //     if (!expandable || !expandable.clickRow) return;
+    //     if ((e.target as HTMLElement).closest('.col-drag-handle')) return;
+    //     if ((e.target as HTMLElement).tagName === 'INPUT' && (e.target as HTMLInputElement).type === 'checkbox') return;
+    //     if ((e.target as HTMLElement).tagName === 'A' || (e.target as HTMLElement).tagName === 'BUTTON') return;
+    //     if ((e.target as HTMLElement).tagName === 'INPUT' && editingCell) return;
+    //     const rowId = (row.original as any).id ?? row.index;
+    //     setExpandedRows(prev => {
+    //         const next = new Set(prev);
+    //         if (next.has(rowId)) {
+    //             next.delete(rowId);
+    //         } else {
+    //             next.add(rowId);
+    //         }
+    //         return next;
+    //     });
+    // };
+
+    const handleRowClick = (e: React.MouseEvent, row: { original: T; index: number }) => {
+
         if ((e.target as HTMLElement).closest('.col-drag-handle')) return;
-        if ((e.target as HTMLElement).tagName === 'INPUT' && (e.target as HTMLInputElement).type === 'checkbox') return;
-        if ((e.target as HTMLElement).tagName === 'A' || (e.target as HTMLElement).tagName === 'BUTTON') return;
-        if ((e.target as HTMLElement).tagName === 'INPUT' && editingCell) return;
-        const rowId = (row.original as any).id ?? row.index;
-        setExpandedRows(prev => {
-            const next = new Set(prev);
-            if (next.has(rowId)) {
-                next.delete(rowId);
-            } else {
-                next.add(rowId);
-            }
-            return next;
-        });
+        if ((e.target as HTMLElement).tagName === 'INPUT') return;
+        if ((e.target as HTMLElement).tagName === 'A') return;
+        if ((e.target as HTMLElement).tagName === 'BUTTON') return;
+
+        if (expandable?.clickRow) {
+            const rowId = (row.original as { id?: string | number }).id ?? row.index;
+            setExpandedRows(prev => {
+                const next = new Set(prev);
+                next.has(rowId) ? next.delete(rowId) : next.add(rowId);
+                return next;
+            });
+        }
+
+        if (onRowClick) {
+            onRowClick(row.original);
+        }
+
     };
 
     //================================================================
@@ -299,7 +323,13 @@ export function Body<T>({
                                 }
                                 onPointerMove={onPointerMove}
                                 onPointerUp={onPointerUp}
-                                onClick={(e) => handleRowClick(e, row)}
+                                // onClick={(e) => handleRowClick(e, row)}
+                                onClick={(e) =>
+                                    handleRowClick(e, {
+                                        original: row.original,
+                                        index: row.index,
+                                    })
+                                }
                             >
                                 {
                                     row.getVisibleCells().map(cell => {
