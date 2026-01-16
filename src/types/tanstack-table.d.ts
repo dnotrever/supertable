@@ -15,5 +15,8 @@ declare module '@tanstack/react-table' {
         sortable?: boolean;
         sticky?: 'left' | 'right';
         textAlign?: 'left' | 'center' | 'right';
+        expandable?: {
+            content: (row: TData) => ReactNode;
+        };
     }
 }

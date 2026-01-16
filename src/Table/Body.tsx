@@ -507,14 +507,59 @@ export function Body<T>({
                             </tr>
                         );
 
-                        if (expandable && expandable.content && expandedRows.has((row.original as any).id ?? row.index)) {
-                            rowElements.push(
-                                <tr key={`${row.id}-expanded`} className="expanded-row">
-                                    <td colSpan={table.getAllColumns().length} className="expanded-content">
-                                        {expandable.content(row.original)}
-                                    </td>
-                                </tr>
-                            );
+                        const rowId = (row.original as { id?: string | number }).id ?? row.index;
+                        const tableExpandableContent = expandable?.content?.(row.original);
+                        const visibleCells = row.getVisibleCells();
+                        const hasColumnExpandable = visibleCells.some(
+                            c => Boolean(c.column.columnDef.meta?.expandable)
+                        );
+                        
+                        if (expandable && expandedRows.has(rowId) && (tableExpandableContent || hasColumnExpandable)) {
+                            if (tableExpandableContent) {
+                                rowElements.push(
+                                    <tr key={`${row.id}-expanded`} className="expanded-row">
+                                        <td colSpan={table.getAllColumns().length} className="expanded-content">
+                                            {tableExpandableContent}
+                                        </td>
+                                    </tr>
+                                );
+                            } else {
+                                rowElements.push(
+                                    <tr key={`${row.id}-expanded`} className="expanded-row">
+                                        {visibleCells.map(cell => {
+                                            const colId = cell.column.id;
+                                            const sticky = stickyById.get(colId);
+                                            const align = getColumnAlign(cell.column, defaultTextAlign);
+
+                                            const className = [
+                                                sticky ? 'is-sticky' : '',
+                                                sticky?.side === 'left' ? 'is-sticky-left' : '',
+                                                sticky?.side === 'right' ? 'is-sticky-right' : '',
+                                            ]
+                                                .filter(Boolean)
+                                                .join(' ');
+
+                                            const style = sticky
+                                                ? sticky.side === 'left'
+                                                    ? ({ ['--sticky-left' as never]: `${sticky.offset}px` } as React.CSSProperties)
+                                                    : ({ ['--sticky-right' as never]: `${sticky.offset}px` } as React.CSSProperties)
+                                                : undefined;
+
+                                            const columnExpandable = cell.column.columnDef.meta?.expandable;
+
+                                            return (
+                                                <td
+                                                    key={`${cell.id}-expanded`}
+                                                    className={`${className} align-${align} expanded-cell`}
+                                                    style={style}
+                                                >
+                                                    {columnExpandable ? columnExpandable.content(row.original) : null}
+                                                </td>
+                                            );
+                                        })}
+                                    </tr>
+                                );
+                            }
                         }
 
                         return rowElements;

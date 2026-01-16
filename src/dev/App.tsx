@@ -32,6 +32,11 @@ export default function App() {
                 // sticky: 'left',
                 // internalHeader: 'Header Interno A',
                 // internalFooter: 'Footer Interno A',
+                expandable: {
+                    content: (row: User) => (
+                        <div>Detalhes de {row.coluna1}</div>
+                    ),
+                },
             },
         },
         {
@@ -74,6 +79,11 @@ export default function App() {
                             Footer Interno Cust.
                         </div>
                     );
+                },
+                expandable: {
+                    content: (row: User) => (
+                        <div>Detalhes de {row.coluna3}</div>
+                    ),
                 },
             },
         },
@@ -204,8 +214,8 @@ export default function App() {
                     tableHeight='calc(100vh - 220px)'
                     // defaultTextAlign='center'
 
-                    // resizableCol
-                    // reorderableCol
+                    resizableCol
+                    reorderableCol
 
                     // sortableCol
                     // sortableCol={false}
@@ -213,7 +223,7 @@ export default function App() {
 
                     editable
 
-                    // draggable
+                    draggable
                     // draggableSticky
 
                     selectable={{
@@ -230,9 +240,9 @@ export default function App() {
                         // sticky: true,
                         clickRow: true,
                         expandAllButton: true,
-                        content: (row: User) => (
-                            <div>Detalhes de {row.coluna1}</div>
-                        ),
+                        // content: (row: User) => (
+                        //     <div>Detalhes de {row.coluna1}</div>
+                        // ),
                     }}
 
                     pagination={{
