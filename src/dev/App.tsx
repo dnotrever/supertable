@@ -142,6 +142,8 @@ export default function App() {
     const [totalItems, setTotalItems] = useState(0);
     const [sort, setSort] = useState<SortState | null>(null);
 
+    const [mostrarIgnorados, setMostrarIgnorados] = useState(false);
+
     useEffect(() => {
         setLoading(true);
         getUsers({
@@ -164,13 +166,30 @@ export default function App() {
         setPageSize(newPageSize);
     };
 
-    // // Data =====================================================================================================
+    // Reproduzir Exibição/Ocultação de Linhas Ignoradas ========================================================
 
-    // const [tableData, setTableData] = useState<User[]>([]);
+    const usersComIgnorados = users.map(user => ({
+        ...user,
+        eh_ignorado: user.id % 2 === 0,
+    }));
 
-    // const handleSubmit = () => {
-    //     setTableData(tableData);
-    // };
+    const usersFiltrados = mostrarIgnorados
+        ? usersComIgnorados
+        : usersComIgnorados.filter(user => !user.eh_ignorado);
+
+    const linhasIgnoradas = mostrarIgnorados
+        ? usersComIgnorados
+            .filter(user => user.eh_ignorado)
+            .map(user => user.id)
+        : [];
+
+    const handleIgnoradosChange = (ids: (string | number)[]) => {
+        console.log('IDs ignorados pelo usuário:', ids);
+        // Aqui você pode:
+        // 1. Atualizar estado local
+        // 2. Enviar para API
+        // 3. Persistir no backend
+    };
 
     //===========================================================================================================
 
@@ -181,12 +200,13 @@ export default function App() {
                 <Table
 
                     header={colunas}
-                    data={users}
+                    // data={users}
+                    data={usersFiltrados}
                     // footer={rodape}
 
                     // onDataChange={setTableData}
 
-                    // tableHeight='calc(100vh - 320px)'
+                    tableHeight='calc(100vh - 220px)'
                     // defaultTextAlign='center'
 
                     // resizableCol
@@ -204,8 +224,10 @@ export default function App() {
                     selectable={{
                         // sticky: true,
                         // label: 'Selecionar',
-                        disableSelectRow: [2, 4, 6, 8],
-                        initialSelectRow: [1, 3, 5]
+                        // disableSelectRow: [2, 4, 6, 8],
+                        // initialSelectRow: [1, 3, 5]
+                        initialSelectRow: linhasIgnoradas,
+                        onSelectedRowsChange: handleIgnoradosChange,
                     }}
 
                     // expandable={{
@@ -249,6 +271,13 @@ export default function App() {
                     onRowClick={(row) => alert(`onRowClick: ${row.coluna1}`)}
 
                 />
+
+                <button
+                    style={{ marginBottom: '10px', padding: '6px 12px', cursor: 'pointer' }}
+                    onClick={() => setMostrarIgnorados(prev => !prev)}
+                >
+                    {mostrarIgnorados ? 'Ocultar Ignorados' : 'Mostrar Ignorados'}
+                </button>
 
                 {/* <button
                     style={{ margin: '20px 0', padding: '4px 16px', borderRadius: '5px', cursor: 'pointer', fontSize: '18px' }}

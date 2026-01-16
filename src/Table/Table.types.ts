@@ -14,6 +14,7 @@ export interface SelectableProps {
     sticky?: boolean;
     disableSelectRow?: (string | number)[];
     initialSelectRow?: (string | number)[];
+    onSelectedRowsChange?: (ids: (string | number)[]) => void;
 }
 
 export interface ExpandableProps<T> {

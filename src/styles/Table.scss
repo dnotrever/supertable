@@ -842,6 +842,7 @@
     .th-content label {
         display: flex !important;
         justify-content: center !important;
+        margin-bottom: 0 !important;
     }
 
     input[type="checkbox"] {
@@ -874,8 +875,8 @@
             &::after {
                 content: '' !important;
                 position: absolute !important;
-                left: 6px !important;
-                top: 2.2px !important;
+                left: 6.5px !important;
+                top: 4.2px !important;
                 width: 3px !important;
                 height: 6px !important;
                 border: solid white !important;

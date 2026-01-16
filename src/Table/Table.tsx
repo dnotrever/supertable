@@ -50,7 +50,7 @@ export function Table<T>({
     noResultMessage = 'Nenhum resultado encontrado.',
     onRowClick,
     hoverableRow,
-    borders='full',
+    borders = 'full',
     style = 'default',
 }: TabelaProps<T>) {
 
@@ -110,6 +110,15 @@ export function Table<T>({
     );
 
     const [selectedRows, setSelectedRows] = useState<Set<string | number>>(initialSelectedSet);
+
+    useEffect(() => {
+        if (!selectable?.initialSelectRow) return;
+        setSelectedRows(new Set(selectable.initialSelectRow));
+    }, [selectable?.initialSelectRow]);
+
+    useEffect(() => {
+        selectable?.onSelectedRowsChange?.(Array.from(selectedRows));
+    }, [selectedRows, selectable]);
 
     //================================================================
     // Expandable
