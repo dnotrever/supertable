@@ -48,7 +48,7 @@ function Ot({
       const F = new Set(V);
       return U ? M.forEach((H) => F.delete(H)) : M.forEach((H) => F.add(H)), F;
     });
-  }, ie = !!v, ge = v?.allButton || !1, oe = b.every((V) => $.has(V)), Ce = () => {
+  }, ie = !!v, ge = v?.expandAllButton || !1, oe = b.every((V) => $.has(V)), Ce = () => {
     E(oe ? /* @__PURE__ */ new Set() : new Set(b));
   };
   return /* @__PURE__ */ m("div", { className: "table-scroll-sync", ref: f, children: /* @__PURE__ */ G("table", { className: "table table-external-header", children: [

@@ -14,6 +14,7 @@ export interface SelectableProps {
     sticky?: boolean;
     disableSelectRow?: (string | number)[];
     initialSelectRow?: (string | number)[];
+    hideDisabledSelects?: boolean; 
     onSelectedRowsChange?: (ids: (string | number)[]) => void;
 }
 
@@ -21,7 +22,7 @@ export interface ExpandableProps<T> {
     content?: (row: T) => ReactNode;
     clickRow?: boolean;
     sticky?: boolean;
-    allButton?: boolean;
+    expandAllButton?: boolean;
 }
 
 export interface TabelaProps<T> {

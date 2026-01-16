@@ -1007,6 +1007,15 @@
 
         }
 
+        .expanded-row {
+            td {
+                height: 37px !important;
+                padding-top: 4px !important;
+                padding-bottom: 4px !important;
+                background-color: #ffffff !important;
+            }
+        }
+
     }
 
     .table-external-footer,

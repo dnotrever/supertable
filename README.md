@@ -202,7 +202,7 @@ const [tableData, setTableData] = useState(data);
   expandable={{
     sticky: true,
     clickRow: true,
-    allButton: true,
+    expandAllButton: true,
     content: (row) => (
       <div>
         <h3>Detalhes de {row.name}</h3>
@@ -224,7 +224,7 @@ const [tableData, setTableData] = useState(data);
 | `content` | `(row: T) => ReactNode` | Função que renderiza o conteúdo expandido |
 | `clickRow` | `boolean` | Permite expandir clicando na linha inteira |
 | `sticky` | `boolean` | Torna a coluna de expansão fixa |
-| `allButton` | `boolean` | Adiciona botão para expandir/colapsar todas |
+| `expandAllButton` | `boolean` | Adiciona botão para expandir/colapsar todas |
 
 ### Paginação
 

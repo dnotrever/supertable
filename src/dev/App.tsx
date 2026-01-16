@@ -55,49 +55,50 @@ export default function App() {
                 );
             },
         },
-        // {
-        //     accessorKey: 'coluna3',
-        //     header: 'Coluna C',
-        //     meta: {
-        //         widthSize: '300px',
-        //         // widthSize: '15%',
-        //         // internalHeader: () => {
-        //         //     return (
-        //         //         <div style={{ color: 'red', fontWeight: 'bold' }}>
-        //         //             Header Interno Cust.
-        //         //         </div>
-        //         //     );
-        //         // },
-        //         // internalFooter: () => {
-        //         //     return (
-        //         //         <div style={{ color: 'green', fontWeight: 'bold' }}>
-        //         //             Footer Interno Cust.
-        //         //         </div>
-        //         //     );
-        //         // },
-        //     },
-        // },
-        // {
-        //     accessorKey: 'coluna4',
-        //     // header: 'Coluna D',
-        //     header: () => (
-        //         <div style={{ color: 'goldenrod', fontWeight: 'bold' }}>
-        //             Coluna D Cust.
-        //         </div>
-        //     ),
-        //     meta: {
-        //         widthSize: '300px',
-        //         // widthSize: '15%',
-        //     },
-        // },
-        // {
-        //     accessorKey: 'coluna5',
-        //     header: 'Coluna E',
-        //     meta: {
-        //         widthSize: '300px',
-        //         // widthSize: '15%',
-        //     },
-        // },
+        {
+            accessorKey: 'coluna3',
+            header: 'Coluna C',
+            meta: {
+                widthSize: '300px',
+                // widthSize: '15%',
+                internalHeader: () => {
+                    return (
+                        <div style={{ color: 'red', fontWeight: 'bold' }}>
+                            Header Interno Cust.
+                        </div>
+                    );
+                },
+                internalFooter: () => {
+                    return (
+                        <div style={{ color: 'green', fontWeight: 'bold' }}>
+                            Footer Interno Cust.
+                        </div>
+                    );
+                },
+            },
+        },
+        {
+            accessorKey: 'coluna4',
+            // header: 'Coluna D',
+            header: () => (
+                <div style={{ color: 'goldenrod', fontWeight: 'bold' }}>
+                    Coluna D Cust.
+                </div>
+            ),
+            meta: {
+                widthSize: '300px',
+                // widthSize: '15%',
+            },
+            cell: ({ row }) => {
+                const colB = row.original.coluna2;
+                const clique = () => { alert(`Ancora: ${colB}`) }
+                return (
+                    <a style={{ color: 'blue' }} onClick={clique}>
+                        {colB} Cust.
+                    </a>
+                );
+            },
+        },
         // {
         //     accessorKey: 'coluna6',
         //     // header: 'Coluna F',
@@ -122,14 +123,8 @@ export default function App() {
     ];
 
     const rodape = (
-        <div style={{ padding: '10px 0' }}>
+        <div style={{ padding: '5px 0' }}>
             Footer Externo
-        </div>
-    );
-
-    const conteudoExpandido = (row: User) => (
-        <div style={{ padding: '5px 10px' }}>
-            <div>Detalhes de {row.coluna1}</div>
         </div>
     );
 
@@ -168,28 +163,28 @@ export default function App() {
 
     // Reproduzir Exibição/Ocultação de Linhas Ignoradas ========================================================
 
-    const usersComIgnorados = users.map(user => ({
-        ...user,
-        eh_ignorado: user.id % 2 === 0,
-    }));
+    // const usersComIgnorados = users.map(user => ({
+    //     ...user,
+    //     eh_ignorado: user.id % 2 === 0,
+    // }));
 
-    const usersFiltrados = mostrarIgnorados
-        ? usersComIgnorados
-        : usersComIgnorados.filter(user => !user.eh_ignorado);
+    // const usersFiltrados = mostrarIgnorados
+    //     ? usersComIgnorados
+    //     : usersComIgnorados.filter(user => !user.eh_ignorado);
 
-    const linhasIgnoradas = mostrarIgnorados
-        ? usersComIgnorados
-            .filter(user => user.eh_ignorado)
-            .map(user => user.id)
-        : [];
+    // const linhasIgnoradas = mostrarIgnorados
+    //     ? usersComIgnorados
+    //         .filter(user => user.eh_ignorado)
+    //         .map(user => user.id)
+    //     : [];
 
-    const handleIgnoradosChange = (ids: (string | number)[]) => {
-        console.log('IDs ignorados pelo usuário:', ids);
-        // Aqui você pode:
-        // 1. Atualizar estado local
-        // 2. Enviar para API
-        // 3. Persistir no backend
-    };
+    // const handleIgnoradosChange = (ids: (string | number)[]) => {
+    //     console.log('IDs ignorados pelo usuário:', ids);
+    //     // Aqui você pode:
+    //     // 1. Atualizar estado local
+    //     // 2. Enviar para API
+    //     // 3. Persistir no backend
+    // };
 
     //===========================================================================================================
 
@@ -200,9 +195,9 @@ export default function App() {
                 <Table
 
                     header={colunas}
-                    // data={users}
-                    data={usersFiltrados}
-                    // footer={rodape}
+                    data={users}
+                    // data={usersFiltrados}
+                    footer={rodape}
 
                     // onDataChange={setTableData}
 
@@ -224,22 +219,21 @@ export default function App() {
                     selectable={{
                         // sticky: true,
                         // label: 'Selecionar',
-                        // disableSelectRow: [2, 4, 6, 8],
+                        disableSelectRow: [2, 4, 6, 8],
+                        // hideDisabledSelects: true,
                         // initialSelectRow: [1, 3, 5]
-                        initialSelectRow: linhasIgnoradas,
-                        onSelectedRowsChange: handleIgnoradosChange,
+                        // initialSelectRow: linhasIgnoradas,
+                        // onSelectedRowsChange: handleIgnoradosChange,
                     }}
 
-                    // expandable={{
-                    //     // sticky: true,
-                    //     clickRow: true,
-                    //     allButton: true,
-                    //     content: (row: User) => (
-                    //         <div style={{ padding: '5px 10px' }}>
-                    //             <div>Detalhes de {row.coluna1}</div>
-                    //         </div>
-                    //     ),
-                    // }}
+                    expandable={{
+                        // sticky: true,
+                        clickRow: true,
+                        expandAllButton: true,
+                        content: (row: User) => (
+                            <div>Detalhes de {row.coluna1}</div>
+                        ),
+                    }}
 
                     pagination={{
                         currentPage,
@@ -268,27 +262,31 @@ export default function App() {
                     // borders='none'
                     style='hannah'
 
-                    onRowClick={(row) => alert(`onRowClick: ${row.coluna1}`)}
+                    // onRowClick={(row) => alert(`onRowClick: ${row.coluna1}`)}
 
                 />
 
-                <button
-                    style={{ marginBottom: '10px', padding: '6px 12px', cursor: 'pointer' }}
-                    onClick={() => setMostrarIgnorados(prev => !prev)}
-                >
-                    {mostrarIgnorados ? 'Ocultar Ignorados' : 'Mostrar Ignorados'}
-                </button>
+                <div style={{ marginTop: '1rem' }}>
 
-                {/* <button
-                    style={{ margin: '20px 0', padding: '4px 16px', borderRadius: '5px', cursor: 'pointer', fontSize: '18px' }}
-                    onClick={handleSubmit}
-                >
-                    Submit
-                </button>
+                    {/* <button
+                        style={{ marginBottom: '10px', padding: '6px 12px', cursor: 'pointer' }}
+                        onClick={() => setMostrarIgnorados(prev => !prev)}
+                    >
+                        {mostrarIgnorados ? 'Ocultar Ignorados' : 'Mostrar Ignorados'}
+                    </button> */}
 
-                <div style={{ backgroundColor: '#ddd', padding: '10px', borderRadius: '5px', height: 'calc(100vh - 540px)', width: '500px', overflow: 'auto' }}>
-                    <pre>{JSON.stringify(tableData, null, 2)}</pre>
-                </div> */}
+                    {/* <button
+                        style={{ margin: '20px 0', padding: '4px 16px', borderRadius: '5px', cursor: 'pointer', fontSize: '18px' }}
+                        onClick={handleSubmit}
+                    >
+                        Submit
+                    </button>
+
+                    <div style={{ backgroundColor: '#ddd', padding: '10px', borderRadius: '5px', height: 'calc(100vh - 540px)', width: '500px', overflow: 'auto' }}>
+                        <pre>{JSON.stringify(tableData, null, 2)}</pre>
+                    </div> */}
+
+                </div>
 
             </div>
         </div>

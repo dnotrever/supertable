@@ -88,7 +88,7 @@ export function ExternalHeader<T>({
     //================================================================
 
     const expandableEnabled = Boolean(expandable);
-    const expandableAllButton = expandable?.allButton || false;
+    const expandableexpandAllButton = expandable?.expandAllButton || false;
 
     const isAllExpanded = allRowIds.every(id => expandedRows.has(id));
 
@@ -191,7 +191,7 @@ export function ExternalHeader<T>({
                                                                     />
                                                                     {selectableLabel}
                                                                 </label>
-                                                            ) : header.column.id === '__expandable__' && expandableEnabled && expandableAllButton ? (
+                                                            ) : header.column.id === '__expandable__' && expandableEnabled && expandableexpandAllButton ? (
                                                                 <button
                                                                     onClick={handleExpandAll}
                                                                     className={`expand-all-button ${isAllExpanded ? 'expanded' : ''}`}

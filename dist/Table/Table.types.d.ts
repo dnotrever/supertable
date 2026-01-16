@@ -14,7 +14,7 @@ export interface ExpandableProps<T> {
     content?: (row: T) => ReactNode;
     clickRow?: boolean;
     sticky?: boolean;
-    allButton?: boolean;
+    expandAllButton?: boolean;
 }
 export interface TabelaProps<T> {
     header: Columns<T>[];

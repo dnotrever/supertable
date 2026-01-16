@@ -249,7 +249,6 @@ export function Body<T>({
 
             <tbody>
 
-                {/* ===================== LOADING ===================== */}
                 {loading === 'default' && (
                     <tr className="table-loading-row">
                         <td
@@ -389,6 +388,15 @@ export function Body<T>({
                                             const rowId = (cell.row.original as any).id ?? cell.row.index;
                                             const isDisabled = disableSelectRow.includes(rowId);
                                             const isSelected = selectedRows.has(rowId);
+                                            if (isDisabled && selectable.hideDisabledSelects) {
+                                                return (
+                                                    <td
+                                                        key={cell.id}
+                                                        className={`${className} align-center`}
+                                                        style={style}
+                                                    />
+                                                );
+                                            }
                                             return (
                                                 <td
                                                     key={cell.id}
