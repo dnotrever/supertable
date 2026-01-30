@@ -1,6 +1,6 @@
-# @dnotrever/super-table
+# SuperTable
 
-Uma tabela React altamente customizável e rica em recursos, construída com TypeScript e TanStack Table.
+Uma biblioteca de tabela React poderosa e personalizável, construída com TypeScript, TanStack Table e SimplerBar.
 
 ## 📦 Instalação
 
@@ -8,20 +8,23 @@ Uma tabela React altamente customizável e rica em recursos, construída com Typ
 npm install https://github.com/dnotrever/super_table_package.git
 ```
 
-```bash
-yarn add https://github.com/dnotrever/super_table_package.git
-```
+### Dependências
 
-```bash
-pnpm add https://github.com/dnotrever/super_table_package.git
+A biblioteca requer as seguintes peer dependencies:
+
+```json
+{
+  "react": "^18 || ^19",
+  "react-dom": "^18 || ^19"
+}
 ```
 
 ## 🚀 Uso Básico
 
 ```tsx
 import { Table } from '@dnotrever/super-table';
-import type { Columns } from '@dnotrever/super-table';
 import '@dnotrever/super-table/super-table.css';
+import type { Columns } from '@dnotrever/super-table';
 
 interface User {
   id: number;
@@ -50,525 +53,413 @@ function App() {
     { id: 2, name: 'Maria Santos', email: 'maria@example.com' },
   ];
 
-  return (
-    <Table
-      header={columns}
-      data={data}
-    />
-  );
+  return <Table header={columns} data={data} />;
 }
 ```
 
-## 📋 Props Principais
+## 📋 Props do Componente `Table`
+
+### Props Obrigatórias
+
+| Prop | Tipo | Descrição |
+|------|------|-----------|
+| `header` | `Columns<T>[]` | Array de definições de colunas |
+| `data` | `T[]` | Array de dados a serem exibidos |
+
+### Props Opcionais
+
+#### Layout e Estilo
 
 | Prop | Tipo | Padrão | Descrição |
 |------|------|--------|-----------|
-| `header` | `Columns<T>[]` | **obrigatório** | Array de definições de colunas |
-| `data` | `T[]` | **obrigatório** | Array de dados a serem exibidos |
-| `footer` | `ReactNode` | `undefined` | Conteúdo customizado para o rodapé externo |
 | `tableHeight` | `string` | `'400px'` | Altura da tabela |
 | `defaultTextAlign` | `'left' \| 'center' \| 'right'` | `'left'` | Alinhamento padrão do texto |
-| `borders` | `'full' \| 'simple' \| 'none'` | `'full'` | Estilo das bordas da tabela |
 | `stripedRows` | `boolean` | `false` | Ativa linhas zebradas |
-| `hoverableRow` | `boolean` | `false` | Ativa efeito hover nas linhas |
-| `onDataChange` | `(data: T[]) => void` | `undefined` | Callback chamado quando os dados mudam |
+| `hoverableRow` | `boolean` | `false` | Ativa hover nas linhas |
+| `borders` | `'full' \| 'simple' \| 'none'` | `'full'` | Estilo das bordas |
+| `style` | `'default' \| 'hannah'` | `'default'` | Tema de estilo |
+| `footer` | `ReactNode` | - | Rodapé customizado externo |
 
-## 🔧 Funcionalidades Avançadas
-
-### Colunas Redimensionáveis
-
-```tsx
-<Table
-  header={columns}
-  data={data}
-  resizableCol
-/>
-```
+#### Funcionalidades de Coluna
 
 | Prop | Tipo | Padrão | Descrição |
 |------|------|--------|-----------|
 | `resizableCol` | `boolean` | `false` | Permite redimensionar colunas |
+| `reorderableCol` | `boolean` | `false` | Permite reordenar colunas |
+| `sortableCol` | `boolean` | `true` | Habilita ordenação de colunas |
+| `onSortChange` | `(sort: SortState \| null) => void` | - | Callback quando a ordenação muda |
 
-### Reordenação de Colunas
-
-```tsx
-<Table
-  header={columns}
-  data={data}
-  reorderableCol
-/>
-```
+#### Edição
 
 | Prop | Tipo | Padrão | Descrição |
 |------|------|--------|-----------|
-| `reorderableCol` | `boolean` | `false` | Permite reordenar colunas via drag & drop |
+| `editable` | `boolean` | `false` | Permite edição inline (duplo clique) |
+| `onDataChange` | `(data: T[]) => void` | - | Callback quando os dados são alterados |
 
-### Ordenação (Sorting)
-
-```tsx
-import type { Columns } from '@dnotrever/super-table';
-
-const [sort, setSort] = useState<SortState | null>(null);
-
-<Table
-  header={columns}
-  data={data}
-  sortableCol
-  onSortChange={setSort}
-/>
-```
+#### Drag and Drop de Linhas
 
 | Prop | Tipo | Padrão | Descrição |
 |------|------|--------|-----------|
-| `sortableCol` | `boolean` | `true` | Ativa ordenação nas colunas |
-| `onSortChange` | `(sort: SortState \| null) => void` | `undefined` | Callback quando a ordenação muda |
+| `draggable` | `boolean` | `false` | Adiciona coluna para arrastar linhas |
+| `draggableSticky` | `boolean` | `false` | Torna a coluna de drag sticky |
 
-**Interface SortState:**
+#### Seleção de Linhas
+
+| Prop | Tipo | Descrição |
+|------|------|-----------|
+| `selectable` | `SelectableProps` | Configurações de seleção |
 
 ```typescript
-interface SortState {
-  columnId: string;
-  direction: 'asc' | 'desc';
+interface SelectableProps {
+  label?: string;                           // Label do checkbox no header
+  sticky?: boolean;                         // Torna a coluna sticky
+  disableSelectRow?: (string | number)[];   // IDs das linhas desabilitadas
+  initialSelectRow?: (string | number)[];   // IDs das linhas inicialmente selecionadas
+  hideDisabledSelects?: boolean;            // Oculta checkboxes desabilitados
+  onSelectedRowsChange?: (ids: (string | number)[]) => void; // Callback de mudança
 }
 ```
 
-### Edição de Células
-
-```tsx
-const [tableData, setTableData] = useState(data);
-
-<Table
-  header={columns}
-  data={tableData}
-  editable
-  onDataChange={setTableData}
-/>
-```
-
-| Prop | Tipo | Padrão | Descrição |
-|------|------|--------|-----------|
-| `editable` | `boolean` | `false` | Permite editar células da tabela |
-
-### Arrastar Linhas (Drag & Drop)
-
-```tsx
-<Table
-  header={columns}
-  data={data}
-  draggable
-  draggableSticky
-/>
-```
-
-| Prop | Tipo | Padrão | Descrição |
-|------|------|--------|-----------|
-| `draggable` | `boolean` | `false` | Adiciona coluna com ícone para arrastar linhas |
-| `draggableSticky` | `boolean` | `false` | Torna a coluna de drag fixa à esquerda |
-
-### Seleção de Linhas
-
-```tsx
-<Table
-  header={columns}
-  data={data}
-  selectable={{
-    sticky: true,
-    label: 'Selecionar',
-    disableSelectRow: [2, 4],
-    initialSelectRow: [1, 3]
-  }}
-/>
-```
+#### Expansão de Linhas
 
 | Prop | Tipo | Descrição |
 |------|------|-----------|
-| `selectable` | `SelectableProps` | Configurações de seleção de linhas |
+| `expandable` | `ExpandableProps<T>` | Configurações de expansão |
 
-**Interface SelectableProps:**
-
-| Propriedade | Tipo | Descrição |
-|-------------|------|-----------|
-| `label` | `string` | Texto do cabeçalho da coluna de seleção |
-| `sticky` | `boolean` | Torna a coluna de seleção fixa |
-| `disableSelectRow` | `(string \| number)[]` | IDs das linhas que não podem ser selecionadas |
-| `initialSelectRow` | `(string \| number)[]` | IDs das linhas inicialmente selecionadas |
-
-### Linhas Expansíveis
-
-```tsx
-<Table
-  header={columns}
-  data={data}
-  expandable={{
-    sticky: true,
-    clickRow: true,
-    expandAllButton: true,
-    content: (row) => (
-      <div>
-        <h3>Detalhes de {row.name}</h3>
-        <p>Email: {row.email}</p>
-      </div>
-    ),
-  }}
-/>
+```typescript
+interface ExpandableProps<T> {
+  content?: (row: T) => ReactNode;  // Conteúdo expandido (nível tabela)
+  clickRow?: boolean;               // Expande ao clicar na linha
+  sticky?: boolean;                 // Torna a coluna de expansão sticky
+  expandAllButton?: boolean;        // Mostra botão expandir/recolher tudo
+}
 ```
 
-| Prop | Tipo | Descrição |
-|------|------|-----------|
-| `expandable` | `ExpandableProps<T>` | Configurações de linhas expansíveis |
-
-**Interface ExpandableProps:**
-
-| Propriedade | Tipo | Descrição |
-|-------------|------|-----------|
-| `content` | `(row: T) => ReactNode` | Função que renderiza o conteúdo expandido |
-| `clickRow` | `boolean` | Permite expandir clicando na linha inteira |
-| `sticky` | `boolean` | Torna a coluna de expansão fixa |
-| `expandAllButton` | `boolean` | Adiciona botão para expandir/colapsar todas |
-
-### Paginação
-
-```tsx
-const [currentPage, setCurrentPage] = useState(1);
-const [pageSize, setPageSize] = useState(15);
-const [totalItems, setTotalItems] = useState(100);
-
-const handlePageChange = (page: number, newPageSize: number) => {
-  setCurrentPage(page);
-  setPageSize(newPageSize);
-};
-
-<Table
-  header={columns}
-  data={data}
-  pagination={{
-    currentPage,
-    pageSize,
-    totalItems,
-    pageSizeOptions: [15, 30, 60, 120],
-    onPageChange: handlePageChange,
-  }}
-/>
-```
+#### Paginação
 
 | Prop | Tipo | Descrição |
 |------|------|-----------|
 | `pagination` | `PaginationProps` | Configurações de paginação |
 
-**Interface PaginationProps:**
-
-| Propriedade | Tipo | Obrigatório | Descrição |
-|-------------|------|-------------|-----------|
-| `currentPage` | `number` | ✅ | Página atual (1-indexed) |
-| `totalItems` | `number` | ✅ | Total de itens |
-| `pageSize` | `number` | ✅ | Tamanho da página |
-| `initialPageSize` | `number` | ❌ | Tamanho inicial da página |
-| `pageSizeOptions` | `number[]` | ❌ | Opções de tamanho de página |
-| `onPageChange` | `(page: number, pageSize: number) => void` | ✅ | Callback de mudança de página |
-
-## 📐 Configuração de Colunas
-
-### Estrutura Básica
-
-```tsx
-const columns: Columns<User>[] = [
-  {
-    accessorKey: 'id',
-    header: 'ID',
-    meta: {
-      widthSize: '50px',
-      textAlign: 'center',
-      resizable: false,
-      reorderable: false,
-      sortable: false,
-    },
-  },
-];
-```
-
-### Propriedades Meta das Colunas
-
-| Propriedade | Tipo | Descrição |
-|-------------|------|-----------|
-| `widthSize` | `string` | Largura da coluna (ex: '300px', '15%') |
-| `textAlign` | `'left' \| 'center' \| 'right'` | Alinhamento do texto |
-| `sticky` | `'left' \| 'right'` | Torna a coluna fixa à esquerda ou direita |
-| `resizable` | `boolean` | Permite redimensionar esta coluna |
-| `reorderable` | `boolean` | Permite reordenar esta coluna |
-| `sortable` | `boolean` | Permite ordenar por esta coluna |
-| `internalHeader` | `ReactNode \| (() => ReactNode)` | Header interno customizado |
-| `internalFooter` | `ReactNode \| (() => ReactNode)` | Footer interno customizado |
-
-### Header Customizado
-
-```tsx
-{
-  accessorKey: 'status',
-  header: () => (
-    <div style={{ color: 'blue', fontWeight: 'bold' }}>
-      Status Customizado
-    </div>
-  ),
+```typescript
+interface PaginationProps {
+  currentPage: number;              // Página atual
+  totalItems: number;               // Total de itens
+  pageSize: number;                 // Itens por página
+  pageSizeOptions?: number[];       // Opções de tamanho de página
+  onPageChange: (page: number, pageSize: number) => void; // Callback
 }
 ```
 
-### Cell Customizado
+#### Estados de Loading
 
-```tsx
-{
-  accessorKey: 'email',
-  header: 'E-mail',
-  cell: ({ row }) => {
-    const email = row.original.email;
-    return (
-      <a 
-        href={`mailto:${email}`}
-        style={{ color: 'blue', textDecoration: 'underline' }}
-      >
-        {email}
-      </a>
-    );
-  },
+| Prop | Tipo | Descrição |
+|------|------|-----------|
+| `loading` | `'default' \| 'spinner' \| 'placeholder' \| 'custom'` | Tipo de loading |
+| `loadingCustom` | `ReactNode` | Componente customizado de loading |
+
+#### Mensagens e Eventos
+
+| Prop | Tipo | Descrição |
+|------|------|-----------|
+| `noResultMessage` | `ReactNode` | Mensagem quando não há dados |
+| `onRowClick` | `(row: T) => void` | Callback ao clicar em uma linha |
+
+## 🔧 Props das Colunas (ColumnDef)
+
+Além das props padrão do TanStack Table, o SuperTable adiciona as seguintes no objeto `meta`:
+
+```typescript
+interface ColumnMeta<TData, TValue> {
+  widthSize?: string;               // Largura da coluna (ex: '120px', '15%')
+  internalHeader?: ReactNode | (() => ReactNode);  // Header interno
+  internalFooter?: ReactNode | (() => ReactNode);  // Footer interno
+  resizable?: boolean;              // Permite redimensionamento
+  reorderable?: boolean;            // Permite reordenação
+  sortable?: boolean;               // Permite ordenação
+  sticky?: 'left' | 'right';        // Fixa a coluna
+  textAlign?: 'left' | 'center' | 'right';  // Alinhamento do texto
+  expandable?: {                    // Configuração de expansão por coluna
+    content: (row: TData) => ReactNode;
+  };
 }
 ```
 
-### Colunas Fixas (Sticky)
+### Exemplo de Coluna com Meta
 
 ```tsx
 {
   accessorKey: 'name',
   header: 'Nome',
   meta: {
-    sticky: 'left',
     widthSize: '200px',
-  },
+    sticky: 'left',
+    textAlign: 'center',
+    sortable: false,
+    resizable: false,
+    internalHeader: 'Filtro de Nome',
+    expandable: {
+      content: (row) => <div>Detalhes: {row.name}</div>
+    }
+  }
 }
 ```
 
-## 🎨 Exemplo Completo
+## 📚 Exemplo Completo
 
 ```tsx
 import { useState, useEffect } from 'react';
 import { Table } from '@dnotrever/super-table';
-import type { Columns, SortState } from '@dnotrever/super-table';
 import '@dnotrever/super-table/super-table.css';
+import type { Columns, SortState } from '@dnotrever/super-table';
 
 interface User {
   id: number;
   name: string;
   email: string;
-  status: string;
+  age: number;
+  city: string;
 }
 
-function App() {
+export default function App() {
+  // Estados
+  const [data, setData] = useState<User[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(15);
+  const [totalItems, setTotalItems] = useState(0);
+  const [sort, setSort] = useState<SortState | null>(null);
+
+  // Definição de colunas
   const columns: Columns<User>[] = [
     {
       accessorKey: 'id',
       header: 'ID',
       meta: {
         widthSize: '80px',
-        textAlign: 'center',
+        sticky: 'left',
         resizable: false,
-        sortable: false,
+        textAlign: 'center',
       },
     },
     {
       accessorKey: 'name',
       header: 'Nome',
       meta: {
-        widthSize: '300px',
-        sticky: 'left',
+        widthSize: '200px',
+        internalHeader: () => (
+          <input 
+            type="text" 
+            placeholder="Filtrar nome..."
+            style={{ width: '100%' }}
+          />
+        ),
+        expandable: {
+          content: (row) => (
+            <div style={{ padding: '10px' }}>
+              <strong>Informações de {row.name}</strong>
+              <p>E-mail: {row.email}</p>
+              <p>Idade: {row.age}</p>
+              <p>Cidade: {row.city}</p>
+            </div>
+          ),
+        },
       },
     },
     {
       accessorKey: 'email',
       header: 'E-mail',
       meta: {
-        widthSize: '300px',
+        widthSize: '250px',
       },
-      cell: ({ row }) => (
-        <a href={`mailto:${row.original.email}`}>
-          {row.original.email}
-        </a>
-      ),
     },
     {
-      accessorKey: 'status',
-      header: 'Status',
+      accessorKey: 'age',
+      header: 'Idade',
       meta: {
-        widthSize: '150px',
+        widthSize: '100px',
         textAlign: 'center',
       },
     },
+    {
+      accessorKey: 'city',
+      header: 'Cidade',
+      meta: {
+        widthSize: '180px',
+        sticky: 'right',
+      },
+      cell: ({ row }) => (
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            alert(`Ver detalhes de ${row.original.city}`);
+          }}
+          style={{
+            padding: '4px 12px',
+            borderRadius: '4px',
+            cursor: 'pointer',
+          }}
+        >
+          {row.original.city}
+        </button>
+      ),
+    },
   ];
 
-  const [data, setData] = useState<User[]>([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [pageSize, setPageSize] = useState(15);
-  const [totalItems, setTotalItems] = useState(0);
-  const [sort, setSort] = useState<SortState | null>(null);
-
+  // Carregar dados
   useEffect(() => {
-    // Buscar dados da API
-    fetchUsers({
-      page: currentPage,
-      pageSize,
-      sortColumn: sort?.columnId,
-      sortDirection: sort?.direction,
-    }).then((response) => {
-      setData(response.data);
-      setTotalItems(response.total);
-    });
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        // Simulação de API
+        const response = await fetch(
+          `/api/users?page=${currentPage}&pageSize=${pageSize}` +
+          `${sort ? `&sortColumn=${sort.columnId}&sortDirection=${sort.direction}` : ''}`
+        );
+        const result = await response.json();
+        
+        setData(result.data);
+        setTotalItems(result.total);
+      } catch (error) {
+        console.error('Erro ao carregar dados:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
   }, [currentPage, pageSize, sort]);
 
+  // Handler de paginação
   const handlePageChange = (page: number, newPageSize: number) => {
     setCurrentPage(page);
     setPageSize(newPageSize);
   };
 
   return (
-    <Table
-      header={columns}
-      data={data}
-      tableHeight="calc(100vh - 200px)"
-      resizableCol
-      reorderableCol
-      sortableCol
-      onSortChange={setSort}
-      editable
-      onDataChange={setData}
-      selectable={{
-        sticky: true,
-        label: 'Selecionar',
-      }}
-      expandable={{
-        sticky: true,
-        clickRow: true,
-        content: (row) => (
-          <div style={{ padding: '10px' }}>
-            <h4>Detalhes de {row.name}</h4>
-            <p>ID: {row.id}</p>
-            <p>E-mail: {row.email}</p>
-            <p>Status: {row.status}</p>
+    <div style={{ padding: '20px' }}>
+      <h1>Gerenciamento de Usuários</h1>
+      
+      <Table
+        // Dados
+        header={columns}
+        data={data}
+        
+        // Layout
+        tableHeight="calc(100vh - 200px)"
+        defaultTextAlign="left"
+        stripedRows
+        hoverableRow
+        borders="simple"
+        style="hannah"
+        
+        // Funcionalidades de coluna
+        resizableCol
+        reorderableCol
+        sortableCol
+        onSortChange={setSort}
+        
+        // Edição
+        editable
+        onDataChange={setData}
+        
+        // Drag and drop
+        draggable
+        draggableSticky
+        
+        // Seleção
+        selectable={{
+          sticky: true,
+          label: 'Selecionar',
+          disableSelectRow: [2, 4],
+          onSelectedRowsChange: (ids) => {
+            console.log('Linhas selecionadas:', ids);
+          },
+        }}
+        
+        // Expansão
+        expandable={{
+          sticky: true,
+          clickRow: true,
+          expandAllButton: true,
+        }}
+        
+        // Paginação
+        pagination={{
+          currentPage,
+          pageSize,
+          totalItems,
+          pageSizeOptions: [15, 30, 60, 120],
+          onPageChange: handlePageChange,
+        }}
+        
+        // Loading
+        loading={loading ? 'spinner' : undefined}
+        
+        // Mensagens
+        noResultMessage={
+          <div style={{ padding: '20px', textAlign: 'center' }}>
+            Nenhum usuário encontrado.
           </div>
-        ),
-      }}
-      pagination={{
-        currentPage,
-        pageSize,
-        totalItems,
-        pageSizeOptions: [15, 30, 60, 120],
-        onPageChange: handlePageChange,
-      }}
-      hoverableRow
-      stripedRows
-      borders="simple"
-    />
+        }
+        
+        // Eventos
+        onRowClick={(row) => {
+          console.log('Linha clicada:', row);
+        }}
+        
+        // Footer
+        footer={
+          <div style={{ padding: '10px', textAlign: 'center' }}>
+            © 2024 Minha Empresa - Todos os direitos reservados
+          </div>
+        }
+      />
+    </div>
   );
 }
 ```
 
-## 🎯 Casos de Uso Comuns
+## 🎨 Temas e Estilos
 
-### Tabela Simples
-
-```tsx
-<Table
-  header={columns}
-  data={data}
-/>
-```
-
-### Tabela com Paginação e Ordenação
+### Tema Padrão
 
 ```tsx
 <Table
   header={columns}
   data={data}
-  sortableCol
-  onSortChange={setSort}
-  pagination={{
-    currentPage,
-    pageSize,
-    totalItems,
-    onPageChange: handlePageChange,
-  }}
+  borders="full"
+  style="default"
 />
 ```
 
-### Tabela Editável
+### Tema Hannah
 
 ```tsx
 <Table
   header={columns}
   data={data}
-  editable
-  onDataChange={setData}
+  borders="simple"
+  style="hannah"
 />
 ```
 
-### Tabela com Seleção
+## 📝 Notas Importantes
 
-```tsx
-<Table
-  header={columns}
-  data={data}
-  selectable={{
-    sticky: true,
-    initialSelectRow: [1, 2, 3],
-  }}
-/>
-```
+1. **IDs Únicos**: Para funcionalidades como seleção e expansão, certifique-se de que seus dados tenham um campo `id` único, ou forneça um `id` explícito nas definições de coluna.
 
-### Tabela com Todas as Funcionalidades
+2. **Paginação Server-Side**: A paginação é controlada externamente. Você é responsável por buscar os dados corretos com base em `currentPage` e `pageSize`.
 
-```tsx
-<Table
-  header={columns}
-  data={data}
-  tableHeight="600px"
-  resizableCol
-  reorderableCol
-  sortableCol
-  editable
-  draggable
-  selectable={{ sticky: true }}
-  expandable={{
-    sticky: true,
-    content: (row) => <div>Detalhes</div>,
-  }}
-  pagination={{
-    currentPage,
-    pageSize,
-    totalItems,
-    onPageChange: handlePageChange,
-  }}
-  hoverableRow
-  stripedRows
-/>
-```
+3. **Ordenação Server-Side**: Similar à paginação, a ordenação não é feita automaticamente. Use o callback `onSortChange` para implementar ordenação no servidor.
 
-## 🎨 Estilização
+4. **Performance**: Para grandes conjuntos de dados, use paginação e considere virtualização se necessário.
 
-O componente vem com estilos padrão, mas você pode customizá-los:
+5. **Colunas Sticky**: Colunas fixas funcionam melhor com larguras definidas em pixels.
 
-```tsx
-import '@dnotrever/super-table/super-table.css';
-```
+## 📄 Licença
 
-Para customizar, você pode sobrescrever as classes CSS ou adicionar seus próprios estilos.
+Este projeto está sob a licença MIT.
 
-## 📝 TypeScript
+## 🤝 Contribuindo
 
-O componente é totalmente tipado com TypeScript. Para melhor experiência:
-
-```tsx
-import type { Columns, SortState, PaginationProps } from '@dnotrever/super-table';
-
-interface MyData {
-  id: number;
-  // ... seus campos
-}
-
-const columns: Columns<MyData>[] = [...];
-```
+Contribuições são bem-vindas! Por favor, abra uma issue ou pull request no repositório.
