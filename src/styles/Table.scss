@@ -855,6 +855,14 @@
 
 .style-hannah {
 
+    .expand-all-button {
+        color: #999 !important;
+    }
+
+    .col-drag-handle {
+        color: #999 !important;
+    }
+
     .th-content label {
         display: flex !important;
         justify-content: center !important;
@@ -1038,10 +1046,9 @@
             justify-content: center !important;
             align-items: center !important;
 
-
             svg {
-                width: 18px !important;
-                height: 18px !important;
+                width: 16px !important;
+                height: 16px !important;
             }
 
             &:hover {
