@@ -1,2 +1,2 @@
-import type { TabelaProps } from './Table.types';
-export declare function Table<T>({ header, data, footer, tableHeight, resizableCol, reorderableCol, sortableCol, onSortChange, onDataChange, stripedRows, defaultTextAlign, editable, draggable, draggableSticky, selectable, expandable, pagination, loading, loadingCustom, noResultMessage, onRowClick, hoverableRow, borders, style, }: TabelaProps<T>): import("react/jsx-runtime").JSX.Element;
+import type { SuperTableProps } from './Table.types';
+export declare function SuperTable<T>({ id, header, data, footer, tableHeight, resizableCol, reorderableCol, sortableCol, onSortChange, onDataChange, stripedRows, defaultTextAlign, editable, draggable, draggableSticky, selectable, expandable, pagination, loading, loadingCustom, noResultMessage, onRowClick, hoverableRow, borders, style, }: SuperTableProps<T>): import("react/jsx-runtime").JSX.Element;

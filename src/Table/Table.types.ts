@@ -25,7 +25,8 @@ export interface ExpandableProps<T> {
     expandAllButton?: boolean;
 }
 
-export interface TabelaProps<T> {
+export interface SuperTableProps<T> {
+    id?: string;
     header: Columns<T>[];
     data: T[];
     footer?: ReactNode;

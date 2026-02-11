@@ -5,4 +5,4 @@ export { InternalFooter } from './InternalFooter';
 export { ExternalFooter } from './ExternalFooter';
 export { Pagination } from './Pagination';
 
-export { Table } from './Table';
+export { SuperTable } from './Table';

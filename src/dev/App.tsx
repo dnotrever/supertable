@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
 import type { Columns, SortState } from '../Table/Table.types';
-import { Table } from '../Table/Table';
+import { SuperTable } from '../Table/Table';
 import '../styles/Table.scss';
 import 'simplebar-react/dist/simplebar.min.css';
 
@@ -202,7 +202,9 @@ export default function App() {
         <div style={{ width: '100%', display: 'flex', justifyContent: 'center', marginTop: '20px', fontFamily: 'Open Sans, sans-serif' }}>
             <div style={{ width: '90%' }}>
 
-                <Table
+                <SuperTable
+
+                    id='minha-tabela'
 
                     header={colunas}
                     data={users}

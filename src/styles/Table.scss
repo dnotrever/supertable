@@ -139,11 +139,13 @@
     }
 
     .col-drag-handle {
+
         cursor: grab !important;
 
         &:hover {
             cursor: grab;
         }
+        
     }
 
     .col-resize-handle {
@@ -856,11 +858,11 @@
 .style-hannah {
 
     .expand-all-button {
-        color: #999 !important;
+        color: #999999 !important;
     }
 
     .col-drag-handle {
-        color: #999 !important;
+        color: #999999 !important;
     }
 
     .th-content label {
@@ -1047,8 +1049,8 @@
             align-items: center !important;
 
             svg {
-                width: 16px !important;
-                height: 16px !important;
+                width: 14px !important;
+                height: 14px !important;
             }
 
             &:hover {

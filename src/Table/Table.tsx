@@ -3,7 +3,7 @@ import { useState, useRef, useLayoutEffect, useCallback, useEffect, useMemo } fr
 import SimpleBar from 'simplebar-react';
 import type SimpleBarCore from 'simplebar-core';
 
-import type { TabelaProps, Columns, SortState } from './Table.types';
+import type { SuperTableProps, Columns, SortState } from './Table.types';
 
 import { useTable } from '../hooks/useTable';
 import { useTableWidth } from '../hooks/useTableWidth';
@@ -27,7 +27,8 @@ import {
     Pagination,
 } from '.';
 
-export function Table<T>({
+export function SuperTable<T>({
+    id,
     header,
     data,
     footer,
@@ -52,7 +53,7 @@ export function Table<T>({
     hoverableRow,
     borders = 'full',
     style = 'default',
-}: TabelaProps<T>) {
+}: SuperTableProps<T>) {
 
     //================================================================
     // Refs
@@ -248,7 +249,7 @@ export function Table<T>({
     //================================================================
 
     return (
-        <div className={`super-table-wrapper borders-${borders} style-${style}`} style={{ height: tableHeight }}>
+        <div id={id} className={`super-table-wrapper borders-${borders} style-${style}`} style={{ height: tableHeight }}>
 
             <ExternalHeader
                 table={table}
