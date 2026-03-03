@@ -2,29 +2,18 @@
 
 Uma biblioteca de tabela React poderosa e personalizável, construída com TypeScript, TanStack Table e SimplerBar.
 
-## 📦 Instalação
+## Instalação
 
 ```bash
-npm install https://github.com/dnotrever/super_table_package.git
+npm i @dnotrever2/super-table
 ```
 
-### Dependências
-
-A biblioteca requer as seguintes peer dependencies:
-
-```json
-{
-  "react": "^18 || ^19",
-  "react-dom": "^18 || ^19"
-}
-```
-
-## 🚀 Uso Básico
+## Uso Básico
 
 ```tsx
-import { Table } from '@dnotrever/super-table';
-import '@dnotrever/super-table/super-table.css';
-import type { Columns } from '@dnotrever/super-table';
+import { Table } from '@dnotrever2/super-table';
+import '@dnotrever2/super-table/super-table.css';
+import type { Columns } from '@dnotrever2/super-table';
 
 interface User {
   id: number;
@@ -57,7 +46,7 @@ function App() {
 }
 ```
 
-## 📋 Props do Componente `Table`
+## Props do Componente `Table`
 
 ### Props Obrigatórias
 
@@ -165,7 +154,7 @@ interface PaginationProps {
 | `noResultMessage` | `ReactNode` | Mensagem quando não há dados |
 | `onRowClick` | `(row: T) => void` | Callback ao clicar em uma linha |
 
-## 🔧 Props das Colunas (ColumnDef)
+## Props das Colunas (ColumnDef)
 
 Além das props padrão do TanStack Table, o SuperTable adiciona as seguintes no objeto `meta`:
 
@@ -205,13 +194,13 @@ interface ColumnMeta<TData, TValue> {
 }
 ```
 
-## 📚 Exemplo Completo
+## Exemplo Completo
 
 ```tsx
 import { useState, useEffect } from 'react';
-import { Table } from '@dnotrever/super-table';
-import '@dnotrever/super-table/super-table.css';
-import type { Columns, SortState } from '@dnotrever/super-table';
+import { Table } from '@dnotrever2/super-table';
+import '@dnotrever2/super-table/super-table.css';
+import type { Columns, SortState } from '@dnotrever2/super-table';
 
 interface User {
   id: number;
@@ -420,7 +409,7 @@ export default function App() {
 }
 ```
 
-## 🎨 Temas e Estilos
+## Temas e Estilos
 
 ### Tema Padrão
 
@@ -444,7 +433,7 @@ export default function App() {
 />
 ```
 
-## 📝 Notas Importantes
+## Notas Importantes
 
 1. **IDs Únicos**: Para funcionalidades como seleção e expansão, certifique-se de que seus dados tenham um campo `id` único, ou forneça um `id` explícito nas definições de coluna.
 
@@ -456,10 +445,6 @@ export default function App() {
 
 5. **Colunas Sticky**: Colunas fixas funcionam melhor com larguras definidas em pixels.
 
-## 📄 Licença
+## Licença
 
 Este projeto está sob a licença MIT.
-
-## 🤝 Contribuindo
-
-Contribuições são bem-vindas! Por favor, abra uma issue ou pull request no repositório.
