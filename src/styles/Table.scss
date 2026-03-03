@@ -28,10 +28,10 @@
 
             transition: transform 180ms ease;
 
-            .is-dragging-col {
-                opacity: 0.2;
-                background-color: #ccc;
-            }
+            // .is-dragging-col {
+            //     opacity: 0.2;
+            //     background-color: #ccc;
+            // }
 
         }
 
@@ -52,6 +52,25 @@
     }
 
 }
+
+.table-col-ghost {
+
+    .th-content {
+
+        font-family: inherit;
+        font-size: inherit;
+        margin-top: 4px;
+        display: flex;
+        color: #666666;
+
+        .col-drag-handle {
+            margin-left: auto;
+        }
+        
+    }
+
+}
+
 
 //=============================================================================
 // Sticky Columns
