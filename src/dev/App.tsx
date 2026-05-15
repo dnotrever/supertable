@@ -16,7 +16,6 @@ export default function App() {
             meta: {
                 widthSize: '50px',
                 // widthSize: '5%',
-                // sticky: 'left',
                 resizable: false,
                 reorderable: false,
                 sortable: false,
@@ -28,10 +27,6 @@ export default function App() {
             header: 'Coluna A',
             meta: {
                 widthSize: '300px',
-                // widthSize: '15%',
-                // sticky: 'left',
-                // internalHeader: 'Header Interno A',
-                // internalFooter: 'Footer Interno A',
                 expandable: {
                     content: (row: User) => (
                         <div>Detalhes de {row.coluna1}</div>
@@ -89,7 +84,6 @@ export default function App() {
         },
         {
             accessorKey: 'coluna4',
-            // header: 'Coluna D',
             header: () => (
                 <div style={{ color: 'goldenrod', fontWeight: 'bold' }}>
                     Coluna D Cust.
@@ -109,27 +103,6 @@ export default function App() {
                 );
             },
         },
-        // {
-        //     accessorKey: 'coluna6',
-        //     // header: 'Coluna F',
-        //     header: () => (
-        //         <input type="text" style={{ height: '12px', padding: '8px 8px', borderRadius: '4px', border: '1px solid #aaa' }} />
-        //     ),
-        //     meta: {
-        //         widthSize: '300px',
-        //         // widthSize: '20%',
-        //         // sticky: 'right',
-        //         sortable: false,
-        //         resizable: false,
-        //         reorderable: false,
-        //         // textAlign: 'center',
-        //         // internalHeader: () => {
-        //         //     return (
-        //         //         <input type="text" style={{ height: '12px', padding: '8px 8px', borderRadius: '4px', border: '1px solid #aaa' }} />
-        //         //     );
-        //         // },
-        //     },
-        // },
     ];
 
     const rodape = (
@@ -190,10 +163,10 @@ export default function App() {
 
     // const handleIgnoradosChange = (ids: (string | number)[]) => {
     //     console.log('IDs ignorados pelo usuário:', ids);
-    //     // Aqui você pode:
-    //     // 1. Atualizar estado local
-    //     // 2. Enviar para API
-    //     // 3. Persistir no backend
+    //     /* Aqui você pode: */
+    //     /* 1. Atualizar estado local */
+    //     /* 2. Enviar para API */
+    //     /* 3. Persistir no backend */
     // };
 
     //===========================================================================================================
