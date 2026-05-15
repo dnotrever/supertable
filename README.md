@@ -12,7 +12,6 @@ npm i @dnotrever2/super-table
 
 ```tsx
 import { Table } from '@dnotrever2/super-table';
-import '@dnotrever2/super-table/super-table.css';
 import type { Columns } from '@dnotrever2/super-table';
 
 interface User {
@@ -206,7 +205,6 @@ interface ColumnMeta<TData, TValue> {
 ```tsx
 import { useState, useEffect } from 'react';
 import { Table } from '@dnotrever2/super-table';
-import '@dnotrever2/super-table/super-table.css';
 import type { Columns, SortState } from '@dnotrever2/super-table';
 
 interface User {
