@@ -1,0 +1,28 @@
+name: supertable-dev
+
+services:
+
+    backend:
+        build:
+            context: ../..
+            dockerfile: development/docker/Dockerfile
+            target: backend
+        ports:
+            - "8002:5000"
+        volumes:
+            - ../backend:/app
+        restart: unless-stopped
+
+    frontend:
+        build:
+            context: ../..
+            dockerfile: development/docker/Dockerfile
+            target: frontend
+        ports:
+            - "9002:5173"
+        volumes:
+            - ../..:/app
+            - /app/node_modules
+        depends_on:
+            - backend
+        restart: unless-stopped

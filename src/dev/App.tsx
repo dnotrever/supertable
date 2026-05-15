@@ -272,7 +272,7 @@ export default function App() {
                     // stripedRows
                     // borders='simple'
                     // borders='none'
-                    style='hannah'
+                    // style='hannah'
 
                     // onRowClick={(row) => alert(`onRowClick: ${row.coluna1}`)}
 
