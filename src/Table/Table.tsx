@@ -360,6 +360,7 @@ export function SuperTable<T>({
                         pageSize={pagination.pageSize}
                         pageSizeOptions={pagination.pageSizeOptions}
                         onPageChange={pagination.onPageChange}
+                        renderInfo={pagination.renderInfo}
                     />
                 )
             }

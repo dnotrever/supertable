@@ -228,6 +228,8 @@ export default function App() {
                         totalItems,
                         pageSizeOptions: [15, 30, 60, 120],
                         onPageChange: handlePageChange,
+                        // renderInfo: ({ totalItems, displayedItems }) =>
+                        //     <span>De {totalItems}, temos {displayedItems} registros | Quantos por página? </span>,
                     }}
 
                     loading={loading ? 'spinner' : undefined}

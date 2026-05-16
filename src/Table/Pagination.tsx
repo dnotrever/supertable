@@ -1,6 +1,15 @@
 import { useMemo } from 'react';
+import type { ReactNode } from 'react';
 
 type PageItem = number | 'ellipsis';
+
+interface PaginationInfoContext {
+    totalItems: number;
+    displayedItems: number;
+    startItem: number;
+    endItem: number;
+    pageSize: number;
+}
 
 interface PaginationProps {
     currentPage: number;
@@ -8,6 +17,7 @@ interface PaginationProps {
     pageSize: number;
     pageSizeOptions?: number[];
     onPageChange: (page: number, pageSize: number) => void;
+    renderInfo?: (ctx: PaginationInfoContext) => ReactNode;
 }
 
 function getPages(current: number, total: number, delta = 2): PageItem[] {
@@ -48,6 +58,7 @@ export function Pagination({
     pageSize,
     pageSizeOptions = [10, 25, 50, 100, 200],
     onPageChange,
+    renderInfo,
 }: PaginationProps) {
 
     const totalPages = Math.max(1, Math.ceil(totalItems / pageSize));
@@ -134,15 +145,19 @@ export function Pagination({
 
             <div className="pagination-info">
 
-                <span>
-                    Exibindo de {startItem} a {endItem} de {totalItems} registros
-                </span>
-
-                <span className="pagination-separator">•</span>
+                {renderInfo
+                    ? renderInfo({ totalItems, displayedItems: endItem - startItem + (totalItems === 0 ? 0 : 1), startItem, endItem, pageSize })
+                    : <>
+                        <span>
+                            Exibindo de {startItem} a {endItem} de {totalItems} registros
+                        </span>
+                        <span className="pagination-separator">•</span>
+                    </>
+                }
 
                 <div className="pagination-select">
 
-                    <label>Itens por página:</label>
+                    {!renderInfo && <label>Itens por página:</label>}
                     <div className='select-wrapper'>
                         <select
                             value={pageSize}

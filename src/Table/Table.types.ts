@@ -54,6 +54,14 @@ export interface SuperTableProps<T> {
     style?: 'default' | 'hannah';
 }
 
+export interface PaginationInfoContext {
+    totalItems: number;
+    displayedItems: number;
+    startItem: number;
+    endItem: number;
+    pageSize: number;
+}
+
 export interface PaginationProps {
     currentPage: number;
     totalItems: number;
@@ -61,6 +69,7 @@ export interface PaginationProps {
     initialPageSize?: number;
     pageSizeOptions?: number[];
     onPageChange: (page: number, pageSize: number) => void;
+    renderInfo?: (ctx: PaginationInfoContext) => ReactNode;
 }
 
 export interface SortState {
