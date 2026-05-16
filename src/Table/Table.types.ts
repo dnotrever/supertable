@@ -14,7 +14,8 @@ export interface SelectableProps {
     sticky?: boolean;
     disableSelectRow?: (string | number)[];
     initialSelectRow?: (string | number)[];
-    hideDisabledSelects?: boolean; 
+    hideDisabledSelects?: boolean;
+    revealOnHover?: boolean;
     onSelectedRowsChange?: (ids: (string | number)[]) => void;
 }
 

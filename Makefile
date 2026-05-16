@@ -9,12 +9,6 @@ build:
 restart:
 	$(COMPOSE) restart
 
-down:
-	$(COMPOSE) down
-
-logs:
-	$(COMPOSE) logs -f
-
 publish:
 	npm version $(type)
 	npm run build

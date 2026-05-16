@@ -1,4 +1,4 @@
-import React, { useMemo, useRef, useState } from 'react';
+import React, { useMemo, useRef, useState, useCallback } from 'react';
 import type { Cell, Table } from '@tanstack/react-table';
 import { flexRender } from '@tanstack/react-table';
 import { ColGroup } from './ColGroup';
@@ -29,6 +29,7 @@ interface Props<T> {
     totalItems?: number;
     stripedRows?: boolean;
     hoverableRow?: boolean;
+    revealOnHoverColIds?: Set<string>;
 }
 
 export function Body<T>({
@@ -54,8 +55,25 @@ export function Body<T>({
     noResultMessage,
     onRowClick,
     totalItems,
+    revealOnHoverColIds,
 }: Props<T>) {
 
+
+    //================================================================
+    // Reveal on hover
+    //================================================================
+
+    const onRowMouseEnter = useCallback((e: React.MouseEvent<HTMLTableRowElement>) => {
+        e.currentTarget.querySelectorAll<HTMLElement>('.cell-content-reveal').forEach(el => {
+            el.style.opacity = '1';
+        });
+    }, []);
+
+    const onRowMouseLeave = useCallback((e: React.MouseEvent<HTMLTableRowElement>) => {
+        e.currentTarget.querySelectorAll<HTMLElement>('.cell-content-reveal').forEach(el => {
+            el.style.opacity = '';
+        });
+    }, []);
 
     //================================================================
     // Row State Setter
@@ -338,6 +356,8 @@ export function Body<T>({
                                 }
                                 onPointerMove={onPointerMove}
                                 onPointerUp={onPointerUp}
+                                onMouseEnter={onRowMouseEnter}
+                                onMouseLeave={onRowMouseLeave}
                                 // onClick={(e) => handleRowClick(e, row)}
                                 onClick={(e) =>
                                     handleRowClick(e, {
@@ -397,28 +417,34 @@ export function Body<T>({
                                                     />
                                                 );
                                             }
+                                            const checkbox = (
+                                                <input
+                                                    type="checkbox"
+                                                    checked={isSelected}
+                                                    disabled={isDisabled}
+                                                    onChange={() => {
+                                                        setSelectedRows(prev => {
+                                                            const next = new Set(prev);
+                                                            if (next.has(rowId)) {
+                                                                next.delete(rowId);
+                                                            } else {
+                                                                next.add(rowId);
+                                                            }
+                                                            return next;
+                                                        });
+                                                    }}
+                                                />
+                                            );
                                             return (
                                                 <td
                                                     key={cell.id}
                                                     className={`${className} align-center`}
                                                     style={style}
                                                 >
-                                                    <input
-                                                        type="checkbox"
-                                                        checked={isSelected}
-                                                        disabled={isDisabled}
-                                                        onChange={() => {
-                                                            setSelectedRows(prev => {
-                                                                const next = new Set(prev);
-                                                                if (next.has(rowId)) {
-                                                                    next.delete(rowId);
-                                                                } else {
-                                                                    next.add(rowId);
-                                                                }
-                                                                return next;
-                                                            });
-                                                        }}
-                                                    />
+                                                    {selectable.revealOnHover
+                                                        ? <span className="cell-content-reveal">{checkbox}</span>
+                                                        : checkbox
+                                                    }
                                                 </td>
                                             );
                                         }
@@ -462,6 +488,8 @@ export function Body<T>({
                                             );
                                         }
 
+                                        const revealOnHover = revealOnHoverColIds?.has(colId);
+
                                         return (
                                             <td
                                                 key={cell.id}
@@ -492,6 +520,13 @@ export function Body<T>({
                                                                 fontFamily: 'inherit',
                                                             }}
                                                         />
+                                                    ) : revealOnHover ? (
+                                                        <span className="cell-content-reveal">
+                                                            {flexRender(
+                                                                cell.column.columnDef.cell,
+                                                                cell.getContext()
+                                                            )}
+                                                        </span>
                                                     ) : (
                                                         flexRender(
                                                             cell.column.columnDef.cell,

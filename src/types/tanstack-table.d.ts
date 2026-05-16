@@ -18,5 +18,6 @@ declare module '@tanstack/react-table' {
         expandable?: {
             content: (row: TData) => ReactNode;
         };
+        revealOnHover?: boolean;
     }
 }

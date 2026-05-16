@@ -154,6 +154,15 @@ export function SuperTable<T>({
         ]
     );
 
+    const revealOnHoverColIds = useMemo(
+        () => new Set<string>(
+            normalizedColumns
+                .filter(c => c.meta?.revealOnHover)
+                .map(c => c.id!)
+        ),
+        [normalizedColumns]
+    );
+
     //================================================================
     // Orderable Columns
     //================================================================
@@ -318,6 +327,7 @@ export function SuperTable<T>({
                             totalItems={pagination?.totalItems}
                             stripedRows={stripedRows}
                             hoverableRow={hoverableRow}
+                            revealOnHoverColIds={revealOnHoverColIds}
                         />
 
                     </SimpleBar>

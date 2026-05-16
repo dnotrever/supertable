@@ -32,6 +32,7 @@ export default function App() {
                         <div>Detalhes de {row.coluna1}</div>
                     ),
                 },
+                // revealOnHover: true,
             },
         },
         {
@@ -209,6 +210,7 @@ export default function App() {
                         // initialSelectRow: [1, 3, 5]
                         // initialSelectRow: linhasIgnoradas,
                         // onSelectedRowsChange: handleIgnoradosChange,
+                        // revealOnHover: true,
                     }}
 
                     expandable={{

@@ -323,6 +323,11 @@
 
         }
 
+        .cell-content-reveal {
+            opacity: 0;
+            transition: opacity 0.15s ease;
+        }
+
     }
 
     .table-no-results-row {
