@@ -8,7 +8,7 @@ services:
             dockerfile: development/docker/Dockerfile
             target: backend
         ports:
-            - "8002:5000"
+            - "8004:5000"
         volumes:
             - ../backend:/app
         restart: unless-stopped
@@ -19,7 +19,7 @@ services:
             dockerfile: development/docker/Dockerfile
             target: frontend
         ports:
-            - "9002:5173"
+            - "9004:5173"
         volumes:
             - ../..:/app
             - /app/node_modules
