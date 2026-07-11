@@ -9,6 +9,7 @@ export interface SelectableProps {
     disableSelectRow?: (string | number)[];
     initialSelectRow?: (string | number)[];
     hideDisabledSelects?: boolean;
+    revealOnHover?: boolean;
     onSelectedRowsChange?: (ids: (string | number)[]) => void;
 }
 export interface ExpandableProps<T> {
@@ -44,6 +45,13 @@ export interface SuperTableProps<T> {
     borders?: 'full' | 'simple' | 'none';
     style?: 'default' | 'hannah';
 }
+export interface PaginationInfoContext {
+    totalItems: number;
+    displayedItems: number;
+    startItem: number;
+    endItem: number;
+    pageSize: number;
+}
 export interface PaginationProps {
     currentPage: number;
     totalItems: number;
@@ -51,6 +59,7 @@ export interface PaginationProps {
     initialPageSize?: number;
     pageSizeOptions?: number[];
     onPageChange: (page: number, pageSize: number) => void;
+    renderInfo?: (ctx: PaginationInfoContext) => ReactNode;
 }
 export interface SortState {
     columnId: string;

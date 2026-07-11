@@ -210,23 +210,25 @@ export function ExternalHeader<T>({
                                                         }
                                                     </div>
 
-                                                    {canSort && <span className="sort-indicator" />}
+                                                    {(canSort || canReorder) && (
+                                                        <div className="th-actions">
+                                                            {canSort && <span className="sort-indicator" />}
 
-                                                    {
-                                                        canReorder && (
-                                                            <span
-                                                                className="col-drag-handle"
-                                                                onClick={e => e.stopPropagation()}
-                                                                onPointerDown={e => {
-                                                                    e.preventDefault();
-                                                                    e.currentTarget.setPointerCapture(e.pointerId);
-                                                                    onDragStart?.(header.column.id, e.nativeEvent);
-                                                                }}
-                                                            >
-                                                                ☰
-                                                            </span>
-                                                        )
-                                                    }
+                                                            {canReorder && (
+                                                                <span
+                                                                    className="col-drag-handle"
+                                                                    onClick={e => e.stopPropagation()}
+                                                                    onPointerDown={e => {
+                                                                        e.preventDefault();
+                                                                        e.currentTarget.setPointerCapture(e.pointerId);
+                                                                        onDragStart?.(header.column.id, e.nativeEvent);
+                                                                    }}
+                                                                >
+                                                                    ☰
+                                                                </span>
+                                                            )}
+                                                        </div>
+                                                    )}
 
                                                     {
                                                         resizableCol && onResizeStart && isColumnResizable(header.column) && (

@@ -32,6 +32,7 @@ export default function App() {
                         <div>Detalhes de {row.coluna1}</div>
                     ),
                 },
+                textAlign: 'center',
                 // revealOnHover: true,
             },
         },
@@ -62,13 +63,13 @@ export default function App() {
             meta: {
                 widthSize: '300px',
                 // widthSize: '15%',
-                internalHeader: () => {
-                    return (
-                        <div style={{ color: 'red', fontWeight: 'bold' }}>
-                            Header Interno Cust.
-                        </div>
-                    );
-                },
+                // internalHeader: () => {
+                //     return (
+                //         <div style={{ color: 'red', fontWeight: 'bold' }}>
+                //             Header Interno Cust.
+                //         </div>
+                //     );
+                // },
                 internalFooter: () => {
                     return (
                         <div style={{ color: 'green', fontWeight: 'bold' }}>
@@ -247,7 +248,7 @@ export default function App() {
 
                     // hoverableRow
                     // stripedRows
-                    // borders='simple'
+                    borders='simple'
                     // borders='none'
                     // style='hannah'
 

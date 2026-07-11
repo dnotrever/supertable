@@ -407,6 +407,14 @@
             justify-content: center;
         }
 
+        .th-actions {
+            display: flex;
+            align-items: center;
+            flex: 0 0 auto;
+            width: auto;
+            margin-left: auto;
+        }
+
         .col-drag-handle {
 
             user-select: none;
@@ -421,6 +429,16 @@
                 opacity: 1;
             }
 
+        }
+
+    }
+
+    .th-content.align-center {
+
+        .th-actions {
+            position: absolute;
+            right: 6px;
+            margin-left: 0;
         }
 
     }
@@ -1259,4 +1277,3 @@
     }
 
 }
-
