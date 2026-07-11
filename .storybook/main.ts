@@ -14,6 +14,10 @@ const config: StorybookConfig = {
     docs: {
         autodocs: 'tag',
     },
+    features: {
+        menuOnboardingChecklist: false,
+        sidebarOnboardingChecklist: false,
+    },
     async viteFinal(config) {
         return mergeConfig(config, {
             root: resolve(dirname, '..'),

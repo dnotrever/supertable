@@ -1,0 +1,34 @@
+@import url('https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap');
+
+:root {
+    --bg-0: #0a0b0e;
+    --bg-1: #15181f;
+    --bg-2: #1f242c;
+    --bg-3: #2a2f38;
+    --bg-4: #343b46;
+    --border: #2a3038;
+    --border-strong: #383f48;
+    --fg-1: #f1f3f5;
+    --fg-2: #aab2bd;
+    --fg-3: #6b7280;
+    --font-sans: 'Geist', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+    --fs-body: 14px;
+    --lh-body: 1.5;
+}
+
+html,
+body {
+    margin: 0;
+    background: var(--bg-0) !important;
+    color: var(--fg-1);
+    font-family: var(--font-sans);
+    font-size: var(--fs-body);
+    line-height: var(--lh-body);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.sb-show-main,
+#storybook-root {
+    background: var(--bg-0) !important;
+}

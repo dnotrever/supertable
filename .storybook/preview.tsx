@@ -1,6 +1,7 @@
 import type { Preview } from '@storybook/react';
 import '../src/styles/Table.scss';
 import 'simplebar-react/dist/simplebar.min.css';
+import './preview.css';
 
 const preview: Preview = {
     parameters: {
@@ -27,11 +28,13 @@ const preview: Preview = {
             return (
                 <div
                     style={{
-                        minHeight: '100vh',
-                        background: '#f5f6f8',
-                        color: '#1f2937',
-                        fontFamily: 'Open Sans, Arial, sans-serif',
-                        padding: 24,
+                        minHeight: 300,
+                        background: 'var(--bg-2)',
+                        borderRadius: 6,
+                        border: '1px solid var(--border)',
+                        padding: '32px 28px',
+                        color: 'var(--fg-1)',
+                        fontFamily: 'var(--font-sans)',
                     }}
                 >
                     <Story />

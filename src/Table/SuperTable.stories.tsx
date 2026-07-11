@@ -229,7 +229,6 @@ function TableScenario(args: TableStoryArgs) {
 const meta = {
     title: 'Components/SuperTable',
     component: SuperTable,
-    tags: ['autodocs'],
     args: {
         tableHeight: '520px',
         defaultTextAlign: 'left',
@@ -268,57 +267,3 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Playground: Story = {};
-
-export const CenteredHeaders: Story = {
-    args: {
-        defaultTextAlign: 'center',
-        pagination: false,
-    },
-};
-
-export const SelectableAndExpandable: Story = {
-    args: {
-        selectable: true,
-        expandable: true,
-        draggable: true,
-        tableHeight: '560px',
-    },
-};
-
-export const Loading: Story = {
-    args: {
-        pagination: false,
-    },
-    render: args => (
-        <div style={{ maxWidth: 1180 }}>
-            <SuperTable
-                id="storybook-super-table-loading"
-                header={columns}
-                data={[]}
-                tableHeight={args.tableHeight}
-                loading="spinner"
-                borders={args.borders}
-                style={args.style}
-            />
-        </div>
-    ),
-};
-
-export const Empty: Story = {
-    args: {
-        pagination: false,
-    },
-    render: args => (
-        <div style={{ maxWidth: 1180 }}>
-            <SuperTable
-                id="storybook-super-table-empty"
-                header={columns}
-                data={[]}
-                tableHeight={args.tableHeight}
-                noResultMessage="Nao ha registros para este filtro."
-                borders={args.borders}
-                style={args.style}
-            />
-        </div>
-    ),
-};
