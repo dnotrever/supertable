@@ -1,5 +1,6 @@
 COMPOSE = docker compose -f development/docker/docker-compose.yml
 TYPE ?= patch
+OTP ?=
 
 .PHONY: build restart down logs version publish
 
@@ -14,6 +15,16 @@ version:
 
 publish:
 	npm whoami
-	npm version $(TYPE) --no-git-tag-version
+	npm ci
 	npm run build
-	npm publish --access public
+	@otp="$(OTP)"; \
+	if [ -z "$$otp" ]; then \
+		printf "NPM OTP (Enter vazio somente se usar token com bypass 2FA): "; \
+		read otp; \
+	fi; \
+	npm version $(TYPE) --no-git-tag-version; \
+	if [ -n "$$otp" ]; then \
+		npm publish --access public --otp "$$otp"; \
+	else \
+		npm publish --access public; \
+	fi

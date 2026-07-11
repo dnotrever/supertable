@@ -1,6 +1,6 @@
 {
     "name": "@dnotrever2/super-table",
-    "version": "0.0.4",
+    "version": "0.0.7",
     "private": false,
     "type": "module",
     "main": "./dist/index.js",
@@ -25,7 +25,9 @@
     ],
     "scripts": {
         "build": "tsc -p tsconfig.build.json && vite build",
-        "dev": "vite"
+        "dev": "vite",
+        "storybook": "HOME=/tmp STORYBOOK_DISABLE_TELEMETRY=1 storybook dev -p ${STORYBOOK_PORT:-6006} --host 0.0.0.0 --no-open --no-version-updates",
+        "build-storybook": "HOME=/tmp STORYBOOK_DISABLE_TELEMETRY=1 storybook build"
     },
     "peerDependencies": {
         "react": "^18 || ^19",
@@ -40,11 +42,13 @@
         "simplebar-react": "^3.3.2"
     },
     "devDependencies": {
+        "@storybook/react-vite": "^10.5.0",
         "@types/node": "^25.0.3",
         "@types/react": "^19.2.7",
         "@types/react-dom": "^19.2.3",
         "@vitejs/plugin-react": "^5.1.2",
         "sass": "^1.97.1",
+        "storybook": "^10.5.0",
         "typescript": "^5.9.3",
         "vite": "^7.3.0"
     }

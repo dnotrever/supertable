@@ -12,6 +12,8 @@
         "src/**/*.d.ts"
     ],
     "exclude": [
-        "src/dev"
+        "src/dev",
+        "src/**/*.stories.ts",
+        "src/**/*.stories.tsx"
     ]
 }
