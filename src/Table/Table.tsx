@@ -171,6 +171,17 @@ export function SuperTable<T>({
         normalizedColumns.map(col => col.id!)
     );
 
+    useEffect(() => {
+        setColumnOrder(prev => {
+            const nextIds = normalizedColumns.map(col => col.id!);
+            const nextSet = new Set(nextIds);
+            const kept = prev.filter(id => nextSet.has(id));
+            const added = nextIds.filter(id => !kept.includes(id));
+
+            return [...kept, ...added];
+        });
+    }, [normalizedColumns]);
+
     //================================================================
     // Table Data (SERVER-SIDE SORTED)
     //================================================================

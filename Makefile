@@ -2,13 +2,10 @@ COMPOSE = docker compose -f development/docker/docker-compose.yml
 TYPE ?= patch
 OTP ?=
 
-.PHONY: build restart down logs version publish
+.PHONY: build version publish
 
 build:
 	$(COMPOSE) up -d --build
-
-restart:
-	$(COMPOSE) restart
 
 version:
 	npm version $(TYPE) --no-git-tag-version

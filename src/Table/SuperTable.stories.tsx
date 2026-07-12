@@ -85,7 +85,6 @@ const columns: Columns<DemoUser>[] = [
         header: 'E-mail',
         meta: {
             widthSize: '280px',
-            revealOnHover: true,
         },
     },
     {
