@@ -3,6 +3,7 @@ import type { ReactNode } from 'react';
 export type RenderNode = ReactNode | (() => ReactNode);
 export type Columns<T> = ColumnDef<T, unknown>;
 export type LoadingType = 'default' | 'spinner' | 'placeholder' | 'custom';
+export type ReorderableColIconPosition = 'left' | 'right';
 export interface SelectableProps {
     label?: string;
     sticky?: boolean;
@@ -26,6 +27,7 @@ export interface SuperTableProps<T> {
     tableHeight?: string;
     resizableCol?: boolean;
     reorderableCol?: boolean;
+    reorderableColIconPosition?: ReorderableColIconPosition;
     defaultTextAlign?: 'left' | 'center' | 'right';
     editable?: boolean;
     draggable?: boolean;

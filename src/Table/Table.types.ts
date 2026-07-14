@@ -8,6 +8,7 @@ export type RenderNode =
 export type Columns<T> = ColumnDef<T, unknown>;
 
 export type LoadingType = 'default' | 'spinner' | 'placeholder' | 'custom';
+export type ReorderableColIconPosition = 'left' | 'right';
 
 export interface SelectableProps {
     label?: string;
@@ -34,6 +35,7 @@ export interface SuperTableProps<T> {
     tableHeight?: string;
     resizableCol?: boolean;
     reorderableCol?: boolean;
+    reorderableColIconPosition?: ReorderableColIconPosition;
     defaultTextAlign?: 'left' | 'center' | 'right';
     editable?: boolean;
     draggable?: boolean;

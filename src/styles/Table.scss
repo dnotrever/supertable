@@ -417,14 +417,20 @@
             align-items: center;
             flex: 0 0 auto;
             width: auto;
-            margin-left: auto;
+            margin-left: 0;
+        }
+
+        .th-reorder-actions.position-left {
+            order: -1;
+            margin-right: 0;
+            margin-left: 0;
         }
 
         .col-drag-handle {
 
             user-select: none;
             margin-right: 6px;
-            margin-left: auto;
+            margin-left: 0;
             font-size: 14px;
             opacity: 0.6;
             cursor: grab;
@@ -444,6 +450,16 @@
             position: absolute;
             right: 6px;
             margin-left: 0;
+        }
+
+        .th-reorder-actions.position-left {
+            left: 6px;
+            right: auto;
+            margin-right: 0;
+        }
+
+        &.reorder-icon-right .th-sort-actions {
+            right: 24px;
         }
 
     }

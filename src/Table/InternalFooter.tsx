@@ -20,7 +20,7 @@ export function InternalFooter<T>({
     scrollRef,
 }: Props<T>) {
 
-    const columns = table.getAllLeafColumns();
+    const columns = table.getVisibleLeafColumns();
 
     const hasInternalFooter = columns.some(
         col => col.columnDef.meta?.internalFooter != null
@@ -43,7 +43,7 @@ export function InternalFooter<T>({
                 <tfoot>
                     <tr>
                         {
-                            table.getAllLeafColumns().map(col => {
+                            table.getVisibleLeafColumns().map(col => {
 
                                 const valor: RenderNode | undefined = col.columnDef.meta?.internalFooter;
 

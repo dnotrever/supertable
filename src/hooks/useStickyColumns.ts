@@ -12,9 +12,11 @@ export interface StickyInfo {
 
 export function useStickyColumns<T>(table: Table<T>) {
 
+    const columnOrder = table.getState().columnOrder;
+
     return useMemo(() => {
 
-        const cols = table.getAllLeafColumns();
+        const cols = table.getVisibleLeafColumns();
 
         const widthPxById = new Map<string, number>();
 
@@ -45,6 +47,6 @@ export function useStickyColumns<T>(table: Table<T>) {
 
         return stickyById;
 
-    }, [table]);
+    }, [table, columnOrder]);
 
 }

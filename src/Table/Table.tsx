@@ -35,6 +35,7 @@ export function SuperTable<T>({
     tableHeight = '400px',
     resizableCol = false,
     reorderableCol = false,
+    reorderableColIconPosition = 'right',
     sortableCol = true,
     onSortChange,
     onDataChange,
@@ -174,11 +175,16 @@ export function SuperTable<T>({
     useEffect(() => {
         setColumnOrder(prev => {
             const nextIds = normalizedColumns.map(col => col.id!);
-            const nextSet = new Set(nextIds);
-            const kept = prev.filter(id => nextSet.has(id));
-            const added = nextIds.filter(id => !kept.includes(id));
+            const prevSet = new Set(prev);
 
-            return [...kept, ...added];
+            if (
+                prev.length === nextIds.length &&
+                nextIds.every(id => prevSet.has(id))
+            ) {
+                return prev;
+            }
+
+            return nextIds;
         });
     }, [normalizedColumns]);
 
@@ -278,6 +284,7 @@ export function SuperTable<T>({
                 stickyById={stickyById}
                 resizableCol={resizableCol}
                 reorderableCol={reorderableCol}
+                reorderableColIconPosition={reorderableColIconPosition}
                 sortableCol={sortableCol}
                 sortState={sortState}
                 setSortState={handleSortChange}

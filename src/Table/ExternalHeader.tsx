@@ -1,6 +1,11 @@
 import type { Table, Column } from '@tanstack/react-table';
 import type { StickyInfo } from '../hooks/useStickyColumns';
-import type { SortState, SelectableProps, ExpandableProps } from './Table.types';
+import type {
+    SortState,
+    SelectableProps,
+    ExpandableProps,
+    ReorderableColIconPosition,
+} from './Table.types';
 
 import { isColumnResizable } from '../utils/isColumnResizable';
 import { getColumnAlign } from '../utils/getColumnAlign';
@@ -13,6 +18,7 @@ interface Props<T> {
     stickyById: Map<string, StickyInfo>;
     resizableCol?: boolean;
     reorderableCol?: boolean;
+    reorderableColIconPosition?: ReorderableColIconPosition;
     sortableCol?: boolean;
     sortState: SortState | null;
     setSortState: (next: SortState | null) => void;
@@ -36,6 +42,7 @@ export function ExternalHeader<T>({
     stickyById,
     resizableCol = false,
     reorderableCol = false,
+    reorderableColIconPosition = 'right',
     sortableCol = true,
     sortState,
     setSortState,
@@ -174,7 +181,13 @@ export function ExternalHeader<T>({
                                                 onClick={handleSortClick}
                                             >
 
-                                                <div className={`th-content align-${align}`}>
+                                                <div
+                                                    className={[
+                                                        'th-content',
+                                                        `align-${align}`,
+                                                        canReorder ? `reorder-icon-${reorderableColIconPosition}` : '',
+                                                    ].filter(Boolean).join(' ')}
+                                                >
 
                                                     <div>
                                                         {header.isPlaceholder
@@ -210,23 +223,27 @@ export function ExternalHeader<T>({
                                                         }
                                                     </div>
 
-                                                    {(canSort || canReorder) && (
-                                                        <div className="th-actions">
-                                                            {canSort && <span className="sort-indicator" />}
+                                                    {canSort && (
+                                                        <div className="th-actions th-sort-actions">
+                                                            <span className="sort-indicator" />
+                                                        </div>
+                                                    )}
 
-                                                            {canReorder && (
-                                                                <span
-                                                                    className="col-drag-handle"
-                                                                    onClick={e => e.stopPropagation()}
-                                                                    onPointerDown={e => {
-                                                                        e.preventDefault();
-                                                                        e.currentTarget.setPointerCapture(e.pointerId);
-                                                                        onDragStart?.(header.column.id, e.nativeEvent);
-                                                                    }}
-                                                                >
-                                                                    ☰
-                                                                </span>
-                                                            )}
+                                                    {canReorder && (
+                                                        <div
+                                                            className={`th-actions th-reorder-actions position-${reorderableColIconPosition}`}
+                                                        >
+                                                            <span
+                                                                className="col-drag-handle"
+                                                                onClick={e => e.stopPropagation()}
+                                                                onPointerDown={e => {
+                                                                    e.preventDefault();
+                                                                    e.currentTarget.setPointerCapture(e.pointerId);
+                                                                    onDragStart?.(header.column.id, e.nativeEvent);
+                                                                }}
+                                                            >
+                                                                ☰
+                                                            </span>
                                                         </div>
                                                     )}
 

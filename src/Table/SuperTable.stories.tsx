@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 
 import { SuperTable } from './Table';
-import type { Columns, SortState } from './Table.types';
+import type { Columns, ReorderableColIconPosition, SortState } from './Table.types';
 
 interface DemoUser {
     id: number;
@@ -19,6 +19,7 @@ type TableStoryArgs = {
     defaultTextAlign: 'left' | 'center' | 'right';
     resizableCol: boolean;
     reorderableCol: boolean;
+    reorderableColIconPosition: ReorderableColIconPosition;
     sortableCol: boolean;
     editable: boolean;
     draggable: boolean;
@@ -30,6 +31,13 @@ type TableStoryArgs = {
     borders: 'full' | 'simple' | 'none';
     style: 'default' | 'hannah';
 };
+
+const booleanControl = {
+    control: 'boolean',
+    table: {
+        type: { summary: 'boolean' },
+    },
+} as const;
 
 const users: DemoUser[] = Array.from({ length: 36 }, (_, index) => {
     const id = index + 1;
@@ -70,7 +78,6 @@ const columns: Columns<DemoUser>[] = [
         header: 'Nome',
         meta: {
             widthSize: '220px',
-            textAlign: 'center',
             expandable: {
                 content: row => (
                     <div style={{ padding: 8 }}>
@@ -92,7 +99,6 @@ const columns: Columns<DemoUser>[] = [
         header: 'Time',
         meta: {
             widthSize: '160px',
-            textAlign: 'center',
         },
     },
     {
@@ -100,7 +106,6 @@ const columns: Columns<DemoUser>[] = [
         header: 'Status',
         meta: {
             widthSize: '160px',
-            textAlign: 'center',
         },
         cell: ({ row }) => (
             <span style={{ color: statusColors[row.original.status], fontWeight: 700 }}>
@@ -167,6 +172,7 @@ function TableScenario(args: TableStoryArgs) {
                 defaultTextAlign={args.defaultTextAlign}
                 resizableCol={args.resizableCol}
                 reorderableCol={args.reorderableCol}
+                reorderableColIconPosition={args.reorderableColIconPosition}
                 sortableCol={args.sortableCol}
                 editable={args.editable}
                 draggable={args.draggable}
@@ -233,6 +239,7 @@ const meta = {
         defaultTextAlign: 'left',
         resizableCol: true,
         reorderableCol: true,
+        reorderableColIconPosition: 'right',
         sortableCol: true,
         editable: false,
         draggable: false,
@@ -246,6 +253,20 @@ const meta = {
     },
     argTypes: {
         tableHeight: { control: 'text' },
+        resizableCol: booleanControl,
+        reorderableCol: booleanControl,
+        reorderableColIconPosition: {
+            control: 'select',
+            options: ['left', 'right'],
+        },
+        sortableCol: booleanControl,
+        editable: booleanControl,
+        draggable: booleanControl,
+        selectable: booleanControl,
+        expandable: booleanControl,
+        pagination: booleanControl,
+        stripedRows: booleanControl,
+        hoverableRow: booleanControl,
         defaultTextAlign: {
             control: 'select',
             options: ['left', 'center', 'right'],

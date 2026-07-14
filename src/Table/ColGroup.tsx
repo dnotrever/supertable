@@ -9,7 +9,7 @@ interface Props<T> {
 
 export function ColGroup<T>({ table, tableWidth }: Props<T>) {
 
-    const columns = table.getAllLeafColumns();
+    const columns = table.getVisibleLeafColumns();
 
     const widths = columns.map(col =>
         parseSize(col.columnDef.meta?.widthSize)

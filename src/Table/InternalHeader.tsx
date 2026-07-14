@@ -20,7 +20,7 @@ export function InternalHeader<T>({
     scrollRef,
 }: Props<T>) {
 
-    const columns = table.getAllLeafColumns();
+    const columns = table.getVisibleLeafColumns();
 
     const hasInternalHeader = columns.some(
         col => col.columnDef.meta?.internalHeader != null
@@ -44,7 +44,7 @@ export function InternalHeader<T>({
 
                     <tr>
                         {
-                            table.getAllLeafColumns().map(col => {
+                            table.getVisibleLeafColumns().map(col => {
 
                                 const valor: RenderNode | undefined = col.columnDef.meta?.internalHeader;
                                 const sticky = stickyById.get(col.id);
