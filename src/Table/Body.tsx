@@ -90,20 +90,36 @@ export function Body<T>({
 
     const startYRef = useRef<number | null>(null);
     const draggingIndexRef = useRef<number | null>(null);
+    const pointerOffsetYRef = useRef<number>(0);
 
     const [draggingIndex, setDraggingIndex] = useState<number | null>(null);
-    const [dragOffsetY, setDragOffsetY] = useState<number>(0);
+    const [dragGhost, setDragGhost] = useState<{
+        top: number;
+        left: number;
+        width: number;
+    } | null>(null);
 
     const onPointerDown = (index: number, e: React.PointerEvent) => {
         if (!draggable) return;
 
         e.preventDefault();
 
+        const rowEl = (e.currentTarget as HTMLElement).closest('tr');
+        const rect = rowEl?.getBoundingClientRect();
+
+        if (rect) {
+            pointerOffsetYRef.current = e.clientY - rect.top;
+            setDragGhost({
+                top: rect.top,
+                left: rect.left,
+                width: rect.width,
+            });
+        }
+
         startYRef.current = e.clientY;
         draggingIndexRef.current = index;
 
         setDraggingIndex(index);
-        setDragOffsetY(0);
 
         (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
     };
@@ -116,7 +132,15 @@ export function Body<T>({
         ) return;
 
         const deltaY = e.clientY - startYRef.current;
-        setDragOffsetY(deltaY);
+
+        setDragGhost(prev =>
+            prev
+                ? {
+                    ...prev,
+                    top: e.clientY - pointerOffsetYRef.current,
+                }
+                : prev
+        );
 
         const rowHeight = 32;
         const direction =
@@ -146,16 +170,16 @@ export function Body<T>({
         draggingIndexRef.current = toIndex;
         startYRef.current = e.clientY;
 
-        setDragOffsetY(0);
         setDraggingIndex(toIndex);
     };
 
     const onPointerUp = () => {
         startYRef.current = null;
         draggingIndexRef.current = null;
+        pointerOffsetYRef.current = 0;
 
         setDraggingIndex(null);
-        setDragOffsetY(0);
+        setDragGhost(null);
     };
 
     //================================================================
@@ -257,7 +281,12 @@ export function Body<T>({
     // Return
     //================================================================
 
+    const draggingRow = draggingIndex === null
+        ? null
+        : table.getRowModel().rows[draggingIndex] ?? null;
+
     return (
+        <>
         <table className={`table table-body ${hoverableRow ? "hoverable" : ""} ${stripedRows ? "striped" : ""}`}>
 
             <ColGroup
@@ -345,17 +374,9 @@ export function Body<T>({
                             <tr
                                 key={row.id}
                                 className={`${isDragging ? 'row-dragging' : ''}`}
-                                style={
-                                    isDragging
-                                        ? {
-                                            transform: `translateY(${dragOffsetY}px)`,
-                                            position: 'relative',
-                                            zIndex: 50,
-                                        }
-                                        : undefined
-                                }
                                 onPointerMove={onPointerMove}
                                 onPointerUp={onPointerUp}
+                                onPointerCancel={onPointerUp}
                                 onMouseEnter={onRowMouseEnter}
                                 onMouseLeave={onRowMouseLeave}
                                 // onClick={(e) => handleRowClick(e, row)}
@@ -604,6 +625,85 @@ export function Body<T>({
             </tbody>
 
         </table>
+
+        {dragGhost && draggingRow && (
+            <table
+                className={`table table-body table-row-drag-ghost ${stripedRows ? "striped" : ""}`}
+                style={{
+                    top: dragGhost.top,
+                    left: dragGhost.left,
+                    width: dragGhost.width,
+                }}
+            >
+                <ColGroup
+                    table={table}
+                    tableWidth={dragGhost.width}
+                />
+
+                <tbody>
+                    <tr>
+                        {draggingRow.getVisibleCells().map(cell => {
+                            const colId = cell.column.id;
+                            const align = getColumnAlign(cell.column, defaultTextAlign);
+
+                            if (colId === '__draggable__' && draggable) {
+                                return (
+                                    <td key={cell.id} className="align-center col-drag-handle">
+                                        ☰
+                                    </td>
+                                );
+                            }
+
+                            if (colId === '__selectable__' && selectable) {
+                                const rowId = (cell.row.original as any).id ?? cell.row.index;
+
+                                return (
+                                    <td key={cell.id} className="align-center">
+                                        <input
+                                            type="checkbox"
+                                            checked={selectedRows.has(rowId)}
+                                            readOnly
+                                        />
+                                    </td>
+                                );
+                            }
+
+                            if (colId === '__expandable__' && expandable) {
+                                const rowId = (cell.row.original as any).id ?? cell.row.index;
+                                const isExpanded = expandedRows.has(rowId);
+
+                                return (
+                                    <td key={cell.id} className="align-center">
+                                        <span
+                                            className={`expand-icon ${isExpanded ? 'expanded' : ''}`}
+                                            style={{
+                                                display: 'inline-block',
+                                                transform: isExpanded ? 'rotate(90deg)' : 'rotate(0deg)',
+                                                fontSize: '12px',
+                                            }}
+                                        >
+                                            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M4.5 9L7.5 6L4.5 3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                                            </svg>
+                                        </span>
+                                    </td>
+                                );
+                            }
+
+                            return (
+                                <td key={cell.id} className={`align-${align}`}>
+                                    {flexRender(
+                                        cell.column.columnDef.cell,
+                                        cell.getContext()
+                                    )}
+                                </td>
+                            );
+                        })}
+                    </tr>
+                </tbody>
+            </table>
+        )}
+        </>
     );
 
 }

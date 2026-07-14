@@ -310,8 +310,22 @@
         }
 
         tr.row-dragging {
-            opacity: 0.7;
+            opacity: 0.25;
             background-color: rgba(0, 0, 0, 0.05);
+
+            td {
+                cursor: grabbing;
+            }
+        }
+
+        &.table-row-drag-ghost {
+            position: fixed;
+            z-index: 9999;
+            pointer-events: none;
+            table-layout: fixed;
+            background: #fff;
+            box-shadow: 0 10px 24px rgba(0, 0, 0, 0.22);
+            opacity: 0.96;
 
             td {
                 cursor: grabbing;
