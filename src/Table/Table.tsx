@@ -27,6 +27,14 @@ import {
     Pagination,
 } from '.';
 
+function areSetsEqual<T>(a: Set<T>, b: Set<T>) {
+    if (a.size !== b.size) return false;
+    for (const value of a) {
+        if (!b.has(value)) return false;
+    }
+    return true;
+}
+
 export function SuperTable<T>({
     id,
     header,
@@ -106,21 +114,30 @@ export function SuperTable<T>({
     // Selectable
     //================================================================
 
-    const initialSelectedSet = useMemo(
-        () => new Set(selectable?.initialSelectRow || []),
-        [selectable?.initialSelectRow]
+    const selectableEnabled = Boolean(selectable);
+    const selectableWasEnabledRef = useRef(selectableEnabled);
+
+    const [selectedRows, setSelectedRows] = useState<Set<string | number>>(
+        () => new Set(selectable?.initialSelectRow || [])
     );
 
-    const [selectedRows, setSelectedRows] = useState<Set<string | number>>(initialSelectedSet);
+    const onSelectedRowsChange = selectable?.onSelectedRowsChange;
 
     useEffect(() => {
-        if (!selectable?.initialSelectRow) return;
-        setSelectedRows(new Set(selectable.initialSelectRow));
-    }, [selectable?.initialSelectRow]);
+        if (!selectableEnabled) {
+            selectableWasEnabledRef.current = false;
+            return;
+        }
 
-    useEffect(() => {
-        selectable?.onSelectedRowsChange?.(Array.from(selectedRows));
-    }, [selectedRows, selectable]);
+        if (!selectableWasEnabledRef.current) {
+            selectableWasEnabledRef.current = true;
+            const next = new Set(selectable?.initialSelectRow || []);
+            setSelectedRows(prev => areSetsEqual(prev, next) ? prev : next);
+            return;
+        }
+
+        onSelectedRowsChange?.(Array.from(selectedRows));
+    }, [selectableEnabled, selectable?.initialSelectRow, selectedRows, onSelectedRowsChange]);
 
     //================================================================
     // Expandable

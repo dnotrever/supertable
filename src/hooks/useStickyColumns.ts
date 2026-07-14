@@ -13,6 +13,14 @@ export interface StickyInfo {
 export function useStickyColumns<T>(table: Table<T>) {
 
     const columnOrder = table.getState().columnOrder;
+    const columns = table.getVisibleLeafColumns();
+    const stickySignature = columns
+        .map(c => [
+            c.id,
+            c.columnDef.meta?.sticky ?? '',
+            c.columnDef.meta?.widthSize ?? '',
+        ].join(':'))
+        .join('|');
 
     return useMemo(() => {
 
@@ -47,6 +55,6 @@ export function useStickyColumns<T>(table: Table<T>) {
 
         return stickyById;
 
-    }, [table, columnOrder]);
+    }, [table, columnOrder, stickySignature]);
 
 }

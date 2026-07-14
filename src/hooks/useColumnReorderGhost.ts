@@ -10,6 +10,11 @@ type HeaderInfo = {
     right: number;
 };
 
+type DropTarget = {
+    id: string;
+    side: 'left' | 'right';
+};
+
 export function useColumnReorderGhost({ setColumnOrder }: Args) {
 
     const draggingId = useRef<string | null>(null);
@@ -100,18 +105,17 @@ export function useColumnReorderGhost({ setColumnOrder }: Args) {
         return el;
     }, []);
 
-    const updateIndicator = useCallback((overId: string, cursorX: number) => {
+    const updateIndicator = useCallback((target: DropTarget) => {
         const indicator = indicatorEl.current;
         if (!indicator) return;
 
-        const overTh = document.querySelector<HTMLElement>(`th[data-col-id="${overId}"]`);
+        const overTh = document.querySelector<HTMLElement>(`th[data-col-id="${target.id}"]`);
         if (!overTh) {
             indicator.style.display = 'none';
             return;
         }
 
         const thRect = overTh.getBoundingClientRect();
-        const snapToLeft = cursorX < thRect.left + thRect.width / 2;
 
         const top = thRect.top;
 
@@ -128,7 +132,37 @@ export function useColumnReorderGhost({ setColumnOrder }: Args) {
         indicator.style.display = 'block';
         indicator.style.top = `${top}px`;
         indicator.style.height = `${bottom - top}px`;
-        indicator.style.left = snapToLeft ? `${thRect.left}px` : `${thRect.right}px`;
+        indicator.style.left = target.side === 'left' ? `${thRect.left}px` : `${thRect.right}px`;
+    }, []);
+
+    const getDropTarget = useCallback((cursorX: number): DropTarget | null => {
+        const draggingColumnId = draggingId.current;
+        const headers = headersCache.current;
+        if (!draggingColumnId || !headers.length) return null;
+
+        const draggingIndex = headers.findIndex(h => h.id === draggingColumnId);
+        if (draggingIndex === -1) return null;
+
+        for (let index = 0; index < headers.length; index += 1) {
+            const h = headers[index];
+            if (h.id === draggingColumnId) continue;
+            if (cursorX < h.left || cursorX > h.right) continue;
+
+            const midpoint = h.left + (h.right - h.left) / 2;
+            const isMovingRight = index > draggingIndex;
+            const passedHalf = isMovingRight
+                ? cursorX >= midpoint
+                : cursorX <= midpoint;
+
+            if (!passedHalf) return null;
+
+            return {
+                id: h.id,
+                side: isMovingRight ? 'right' : 'left',
+            };
+        }
+
+        return null;
     }, []);
 
     const startDrag = useCallback(
@@ -173,30 +207,19 @@ export function useColumnReorderGhost({ setColumnOrder }: Args) {
 
             ghostEl.current.style.left = `${lastPointerX.current}px`;
 
-            const headers = headersCache.current;
-            if (!headers.length) return;
+            const dropTarget = getDropTarget(lastPointerX.current);
 
-            let overId: string | null = null;
-
-            for (const h of headers) {
-                if (h.id === draggingId.current) continue;
-                if (lastPointerX.current >= h.left && lastPointerX.current <= h.right) {
-                    overId = h.id;
-                    break;
-                }
-            }
-
-            if (overId) {
-                updateIndicator(overId, lastPointerX.current);
+            if (dropTarget) {
+                updateIndicator(dropTarget);
             } else if (indicatorEl.current) {
                 indicatorEl.current.style.display = 'none';
             }
 
-            if (!overId || overId === draggingId.current) return;
+            if (!dropTarget || dropTarget.id === draggingId.current) return;
 
             setColumnOrder(prev => {
                 const from = prev.indexOf(draggingId.current!);
-                const to = prev.indexOf(overId!);
+                const to = prev.indexOf(dropTarget.id);
                 if (from === -1 || to === -1 || from === to) return prev;
 
                 const next = [...prev];
