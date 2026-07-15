@@ -17,6 +17,8 @@ interface DemoUser {
 type TableStoryArgs = {
     tableHeight: string;
     showFooter: boolean;
+    showInternalHeader: boolean;
+    showInternalFooter: boolean;
     footerText: string;
     emptyData: boolean;
     defaultTextAlign: 'left' | 'center' | 'right';
@@ -42,6 +44,7 @@ type TableStoryArgs = {
     paginationPageSizeOptions: string;
     paginationCustomInfo: boolean;
     loading: 'none' | LoadingType;
+    simulateLoading: boolean;
     loadingCustomText: string;
     noResultMessage: string;
     stripedRows: boolean;
@@ -50,12 +53,37 @@ type TableStoryArgs = {
     style: 'default' | 'hannah';
 };
 
-const booleanControl = {
-    control: 'boolean',
-    table: {
-        type: { summary: 'boolean' },
-    },
-} as const;
+const propsCategory = 'Props';
+const storyControlsCategory = 'Story controls';
+function tableConfig(category: string, subcategory: string, type: string) {
+    return {
+        category,
+        subcategory,
+        type: { summary: type },
+    };
+}
+
+function booleanControl(category = propsCategory, subcategory = 'Geral') {
+    return {
+        control: 'boolean',
+        table: tableConfig(category, subcategory, 'boolean'),
+    } as const;
+}
+
+function textControl(category = propsCategory, subcategory = 'Geral') {
+    return {
+        control: 'text',
+        table: tableConfig(category, subcategory, 'string'),
+    } as const;
+}
+
+function selectControl(options: string[], category = propsCategory, subcategory = 'Geral') {
+    return {
+        control: 'select',
+        options,
+        table: tableConfig(category, subcategory, 'union'),
+    } as const;
+}
 
 const initialSelectedRows: (string | number)[] = [1, 3];
 
@@ -157,11 +185,6 @@ const columns: Columns<DemoUser>[] = [
         header: 'Progresso',
         meta: {
             widthSize: '180px',
-            internalFooter: () => (
-                <span style={{ color: '#166534', fontWeight: 700 }}>
-                    Media: 62%
-                </span>
-            ),
         },
         cell: ({ row }) => `${row.original.progress}%`,
     },
@@ -189,6 +212,35 @@ function TableScenario(args: TableStoryArgs) {
     }, []);
 
     const sortedUsers = useMemo(() => sortData(users, sort), [sort]);
+    const storyColumns = useMemo<Columns<DemoUser>[]>(
+        () => columns.map(column => {
+            const accessorKey = 'accessorKey' in column ? column.accessorKey : undefined;
+            const meta = { ...column.meta };
+
+            if (accessorKey === 'status' && args.showInternalHeader) {
+                meta.internalHeader = (
+                    <span style={{ color: '#4f46e5', fontWeight: 700 }}>
+                        Resumo
+                    </span>
+                );
+            }
+
+            if (accessorKey === 'progress' && args.showInternalFooter) {
+                meta.internalFooter = () => (
+                    <span style={{ color: '#166534', fontWeight: 700 }}>
+                        Media: 62%
+                    </span>
+                );
+            }
+
+            return {
+                ...column,
+                meta,
+            };
+        }),
+        [args.showInternalHeader, args.showInternalFooter]
+    );
+
     const visibleUsers = useMemo(() => {
         if (!args.pagination) return sortedUsers;
 
@@ -256,13 +308,15 @@ function TableScenario(args: TableStoryArgs) {
 
     const tableData = args.emptyData ? [] : visibleUsers;
     const totalItems = args.emptyData ? 0 : sortedUsers.length;
-    const loading = args.loading === 'none' ? undefined : args.loading;
+    const loading = args.simulateLoading
+        ? args.loading === 'none' ? 'spinner' : args.loading
+        : args.loading === 'none' ? undefined : args.loading;
 
     return (
         <div style={{ maxWidth: 1180 }}>
             <SuperTable
                 id="storybook-super-table"
-                header={columns}
+                header={storyColumns}
                 data={tableData}
                 footer={args.showFooter ? <div style={{ padding: '6px 0' }}>{args.footerText}</div> : undefined}
                 tableHeight={args.tableHeight}
@@ -318,6 +372,8 @@ const meta = {
     args: {
         tableHeight: '520px',
         showFooter: true,
+        showInternalHeader: false,
+        showInternalFooter: true,
         footerText: 'Footer externo da story',
         emptyData: false,
         defaultTextAlign: 'left',
@@ -343,6 +399,7 @@ const meta = {
         paginationPageSizeOptions: '5, 10, 20',
         paginationCustomInfo: false,
         loading: 'none',
+        simulateLoading: false,
         loadingCustomText: 'Carregando do meu jeito...',
         noResultMessage: 'Nenhum resultado encontrado.',
         stripedRows: true,
@@ -350,55 +407,55 @@ const meta = {
         borders: 'simple',
         style: 'default',
     },
+    parameters: {
+        controls: {
+            sort: 'none',
+        },
+    },
     argTypes: {
-        tableHeight: { control: 'text' },
-        showFooter: booleanControl,
-        footerText: { control: 'text' },
-        emptyData: booleanControl,
-        resizableCol: booleanControl,
-        reorderableCol: booleanControl,
-        reorderableColIconPosition: {
-            control: 'select',
-            options: ['left', 'right'],
-        },
-        sortableCol: booleanControl,
-        editable: booleanControl,
-        draggable: booleanControl,
-        draggableSticky: booleanControl,
-        selectable: booleanControl,
-        selectableSticky: booleanControl,
-        selectableShowLabel: booleanControl,
-        selectableLabel: { control: 'text' },
-        selectableHideDisabledSelects: booleanControl,
-        selectableRevealOnHover: booleanControl,
-        selectableDisabledRows: { control: 'text' },
-        expandable: booleanControl,
-        expandableSticky: booleanControl,
-        expandableClickRow: booleanControl,
-        expandableExpandAllButton: booleanControl,
-        pagination: booleanControl,
-        paginationPageSizeOptions: { control: 'text' },
-        paginationCustomInfo: booleanControl,
-        loading: {
-            control: 'select',
-            options: ['none', 'default', 'spinner', 'placeholder', 'custom'],
-        },
-        loadingCustomText: { control: 'text' },
-        noResultMessage: { control: 'text' },
-        stripedRows: booleanControl,
-        hoverableRow: booleanControl,
-        defaultTextAlign: {
-            control: 'select',
-            options: ['left', 'center', 'right'],
-        },
-        borders: {
-            control: 'select',
-            options: ['full', 'simple', 'none'],
-        },
-        style: {
-            control: 'select',
-            options: ['default', 'hannah'],
-        },
+        tableHeight: textControl(propsCategory, 'Layout'),
+        defaultTextAlign: selectControl(['left', 'center', 'right'], propsCategory, 'Layout'),
+        borders: selectControl(['full', 'simple', 'none'], propsCategory, 'Layout'),
+        style: selectControl(['default', 'hannah'], propsCategory, 'Layout'),
+
+        stripedRows: booleanControl(propsCategory, 'Rows'),
+        hoverableRow: booleanControl(propsCategory, 'Rows'),
+        editable: booleanControl(propsCategory, 'Rows'),
+        draggable: booleanControl(propsCategory, 'Rows'),
+        draggableSticky: booleanControl(propsCategory, 'Rows'),
+
+        resizableCol: booleanControl(propsCategory, 'Columns'),
+        reorderableCol: booleanControl(propsCategory, 'Columns'),
+        reorderableColIconPosition: selectControl(['left', 'right'], propsCategory, 'Columns'),
+        sortableCol: booleanControl(propsCategory, 'Columns'),
+
+        selectable: booleanControl(propsCategory, 'Selectable'),
+        selectableSticky: booleanControl(propsCategory, 'Selectable'),
+        selectableLabel: textControl(propsCategory, 'Selectable'),
+        selectableDisabledRows: textControl(propsCategory, 'Selectable'),
+        selectableHideDisabledSelects: booleanControl(propsCategory, 'Selectable'),
+        selectableRevealOnHover: booleanControl(propsCategory, 'Selectable'),
+
+        expandable: booleanControl(propsCategory, 'Expandable'),
+        expandableSticky: booleanControl(propsCategory, 'Expandable'),
+        expandableClickRow: booleanControl(propsCategory, 'Expandable'),
+        expandableExpandAllButton: booleanControl(propsCategory, 'Expandable'),
+
+        pagination: booleanControl(propsCategory, 'Pagination'),
+        paginationPageSizeOptions: textControl(propsCategory, 'Pagination'),
+
+        loading: selectControl(['none', 'default', 'spinner', 'placeholder', 'custom'], propsCategory, 'Loading'),
+        noResultMessage: textControl(propsCategory, 'Loading'),
+
+        emptyData: booleanControl(storyControlsCategory, 'Data'),
+        showInternalHeader: booleanControl(storyControlsCategory, 'Internal header'),
+        showFooter: booleanControl(storyControlsCategory, 'Footer'),
+        showInternalFooter: booleanControl(storyControlsCategory, 'Internal footer'),
+        footerText: textControl(storyControlsCategory, 'Footer'),
+        selectableShowLabel: booleanControl(storyControlsCategory, 'Selectable'),
+        paginationCustomInfo: booleanControl(storyControlsCategory, 'Pagination'),
+        simulateLoading: booleanControl(storyControlsCategory, 'Loading'),
+        loadingCustomText: textControl(storyControlsCategory, 'Loading'),
     },
     render: args => <TableScenario {...args} />,
 } satisfies Meta<TableStoryArgs>;
